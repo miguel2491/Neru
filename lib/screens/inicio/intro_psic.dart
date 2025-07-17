@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neru/widgets/audio.dart';
-import 'package:neru/widgets/boton.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
@@ -33,6 +30,7 @@ class _IntroScreenState extends State<IntroScreen> {
           children: [
             const SizedBox(height: 32),
             AudioPlayButton(
+              color: const Color(0xFFBF4141),
               assetPath: 'audio/muscular.mp3',
               label: 'Escuchar explicación',
             ),

@@ -36,7 +36,11 @@ class _SwipeArrowHintState extends State<SwipeArrowHint>
   Widget build(BuildContext context) {
     return SlideTransition(
       position: _animation,
-      child: Icon(Icons.arrow_forward_ios, color: Colors.white54, size: 4),
+      child: Icon(
+        Icons.arrow_forward_ios,
+        color: Color((0xFFBF4141)),
+        size: 48,
+      ),
     );
   }
 }

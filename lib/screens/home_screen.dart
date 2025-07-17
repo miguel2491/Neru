@@ -16,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
+  final int _selectedIndex = 0;
 
   final List<Widget> _pages = [
     Center(
@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
             CustomActionButton(
               label: '¿Que es la psicología del deporte?',
               icon: Icons.show_chart,
-              color: Colors.teal,
+              color: const Color(0xFFBF4141),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -120,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
             CustomActionButton(
               label: 'Iniciar Entrenamiento mental',
               icon: Icons.show_chart,
-              color: Colors.teal,
+              color: const Color(0xFFBF4141),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -132,18 +132,18 @@ class _HomeScreenState extends State<HomeScreen> {
             CustomActionButton(
               label: 'Contacta un psicologo en el deporte',
               icon: Icons.show_chart,
-              color: Colors.teal,
+              color: const Color(0xFFBF4141),
               onPressed: () {
                 Navigator.pushNamed(context, '/progreso');
               },
             ),
             const SizedBox(height: 32),
             CustomActionButton(
-              label: 'Chat IA',
+              label: 'Chat IA (Próximamente)',
               icon: Icons.show_chart,
-              color: Colors.teal,
+              color: const Color(0xFFBF4141),
               onPressed: () {
-                Navigator.pushNamed(context, '/progreso');
+                //Navigator.pushNamed(context, '/progreso');
               },
             ),
             const SizedBox(height: 32),

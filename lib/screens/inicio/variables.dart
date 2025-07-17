@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:neru/screens/variables/estres.dart';
 import 'package:neru/widgets/audio.dart';
 import 'package:neru/widgets/boton.dart';
 
@@ -32,6 +33,7 @@ class _VariablesScreenState extends State<VariablesScreen> {
               SizedBox(
                 width: double.infinity,
                 child: AudioPlayButton(
+                  color: const Color(0xFFBF4141),
                   assetPath: 'audio/muscular.mp3',
                   label: 'Escuchar explicación',
                 ),
@@ -65,9 +67,14 @@ class _VariablesScreenState extends State<VariablesScreen> {
               child: CustomActionButton(
                 label: label,
                 icon: Icons.show_chart,
-                color: Colors.teal,
+                color: const Color(0xFFBF4141),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/progreso');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => EstresScreen(variable: label),
+                    ),
+                  );
                 },
               ),
             ),

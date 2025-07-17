@@ -18,7 +18,12 @@ class SlidePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blue,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/fondo.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: Stack(
         children: [
           Center(
@@ -27,7 +32,7 @@ class SlidePage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 128),
+                  const SizedBox(height: 250),
                   Text(
                     description,
                     textAlign: TextAlign.center,
@@ -42,7 +47,7 @@ class SlidePage extends StatelessWidget {
           ),
           // Agregamos la flecha animada
           if (showSwipeHint)
-            const Positioned(bottom: 20, right: 20, child: SwipeArrowHint()),
+            const Positioned(bottom: 100, right: 20, child: SwipeArrowHint()),
         ],
       ),
     );

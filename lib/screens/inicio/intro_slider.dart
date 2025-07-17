@@ -13,7 +13,7 @@ class IntroSlider extends StatefulWidget {
 class _IntroSliderState extends State<IntroSlider> {
   final PageController _controller = PageController();
   int _currentPage = 0;
-  List<String?> _selections = [null, null, null];
+  final List<String?> _selections = [null, null, null];
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _IntroSliderState extends State<IntroSlider> {
     // Si quieres, puedes hacer algo si ya hay selecciones
     if (_selections.every((element) => element != null)) {
       // Por ejemplo: saltar el intro
-      Navigator.pushReplacementNamed(context, '/home');
+      //Navigator.pushReplacementNamed(context, '/home');
     }
   }
 
@@ -66,60 +66,89 @@ class _IntroSliderState extends State<IntroSlider> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: _controller,
-        onPageChanged: _onPageChanged,
-        children: [
-          SlidePage(
-            title: "Bienvenido",
-            description:
-                "Elige la primera variable con la que quieres empezar y tu primera actividad",
-            showSwipeHint: true,
-            actions: [
-              ElevatedButton(
-                onPressed: () => _saveSelection(0, "Concentración"),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent,
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/fondo.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: PageView(
+          controller: _controller,
+          onPageChanged: _onPageChanged,
+          children: [
+            SlidePage(
+              title: "Bienvenido",
+              description:
+                  "Elige la primera variable con la que quieres empezar y tu primera actividad",
+              showSwipeHint: true,
+              actions: [
+                ElevatedButton(
+                  onPressed: () => _saveSelection(0, "Concentración"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFFBF4141),
+                  ),
+                  child: const Text(
+                    "Concentración",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
-                child: const Text("Concentración"),
-              ),
-              ElevatedButton(
-                onPressed: () => _saveSelection(1, "Motivación"),
-                child: const Text("Motivación"),
-              ),
-            ],
-          ),
-          SlidePage(
-            title: "🔓",
-            description:
-                "🔓\nFinaliza tu actividad para desbloquear nuevas actividades",
-            showSwipeHint: true,
-            actions: [
-              ElevatedButton(
-                onPressed: () => _saveSelection(2, "Aceptado"),
-                child: const Text("Aceptar"),
-              ),
-            ],
-          ),
-          SlidePage(
-            title: "📈",
-            description:
-                "Haz cada actividad durante 7 días para mejores resultados",
-            showSwipeHint: false,
-            actions: [
-              ElevatedButton(
-                onPressed: () {
-                  _saveSelection(2, "Listo");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const VariablesScreen()),
-                  );
-                },
-                child: const Text("Empezar"),
-              ),
-            ],
-          ),
-        ],
+                ElevatedButton(
+                  onPressed: () => _saveSelection(1, "Motivación"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFFBF4141),
+                  ),
+                  child: const Text(
+                    "Motivación",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+            SlidePage(
+              title: "🔓",
+              description:
+                  "🔓\nFinaliza tu actividad para desbloquear nuevas actividades",
+              showSwipeHint: true,
+              actions: [
+                ElevatedButton(
+                  onPressed: () => _saveSelection(2, "Aceptado"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFFBF4141),
+                  ),
+                  child: const Text(
+                    "Aceptar",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+            SlidePage(
+              title: "📈",
+              description:
+                  "Haz cada actividad durante 7 días para mejores resultados",
+              showSwipeHint: false,
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    _saveSelection(2, "Listo");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const VariablesScreen(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFFBF4141),
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text("Empezar"),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

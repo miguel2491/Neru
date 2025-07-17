@@ -36,6 +36,7 @@ flutter:
     - assets/
     - assets/pdf/neru.pdf
     - assets/audio/muscular.mp3
+    - assets/variables/
     - .env
 
 flutter_native_splash:
