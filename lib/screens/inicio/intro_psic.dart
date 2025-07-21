@@ -12,7 +12,7 @@ class _IntroScreenState extends State<IntroScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Neru'),
+        title: Text('NERU'),
         centerTitle: true,
         backgroundColor: Color(0xFFBF4141),
         foregroundColor: Colors.white,
@@ -28,16 +28,24 @@ class _IntroScreenState extends State<IntroScreen> {
         ),
         child: Column(
           children: [
-            const SizedBox(height: 32),
+            const SizedBox(height: 84),
             AudioPlayButton(
               color: const Color(0xFFBF4141),
               assetPath: 'audio/muscular.mp3',
               label: 'Escuchar explicación',
             ),
             const SizedBox(height: 32),
-            const Text(
-              '¿Estats listo para aumentar tu rendimiento DEPORTIVO?',
-              style: TextStyle(color: Colors.white, fontSize: 16),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 70.0, vertical: 30.0),
+              child: Text(
+                '¿Estas listo para aumentar tu rendimiento DEPORTIVO?',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontFamily: 'Monserrat',
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ],
         ),

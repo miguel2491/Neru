@@ -18,6 +18,8 @@ dependencies:
   font_awesome_flutter: ^10.7.0
   percent_indicator: ^4.2.3
   audioplayers: ^6.5.0
+  sqflite: ^2.3.0
+  path: ^1.9.0
 
 dev_dependencies:
   flutter_test:
@@ -38,7 +40,13 @@ flutter:
     - assets/audio/muscular.mp3
     - assets/variables/
     - .env
-
+  fonts:
+    - family: Monserrat
+      fonts:
+      - asset: assets/fonts/Montserrat-Regular.otf
+      - asset: assets/fonts/Montserrat-Bold.otf
+        weight: 700
+  
 flutter_native_splash:
   color: "#302F40"
   image: assets/logo.png

@@ -4,10 +4,12 @@ import 'package:neru/screens/entrenamiento.dart';
 import 'package:neru/screens/perfil.dart';
 import 'package:neru/screens/progreso.dart';
 import 'package:neru/screens/variables/ejercicio.dart';
+import 'package:neru/services/api.dart' as api_services;
+import 'package:neru/services/db_helper.dart';
 import 'package:neru/widgets/boton.dart';
 
 class ActividadesScreen extends StatefulWidget {
-  final String variable;
+  final int variable;
   const ActividadesScreen({super.key, required this.variable});
   @override
   State<ActividadesScreen> createState() => _ActividadesScreenState();
@@ -15,6 +17,7 @@ class ActividadesScreen extends StatefulWidget {
 
 class _ActividadesScreenState extends State<ActividadesScreen> {
   final int _selectedIndex = 0;
+  List<Map<String, dynamic>> _actividades = [];
 
   final List<Widget> _pages = [
     Center(
@@ -66,6 +69,22 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _loadActividades();
+  }
+
+  Future<void> _loadActividades() async {
+    final actividades = await DBHelper.getActividadesByVariableId(
+      widget.variable,
+    );
+    print('👻 $actividades');
+    setState(() {
+      _actividades = actividades;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final Map<String, String> imageMap = {
       'Control de estrés y ansiedad': 'Estres',
@@ -93,116 +112,42 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Column(
-          children: [
-            const SizedBox(height: 100),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  '$variable_',
-                  style: TextStyle(color: Colors.white, fontSize: 24),
-                ),
-              ],
-            ),
-            const SizedBox(height: 50),
-            // Fila 1
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomActionButton(
-                      label: 'Botón $variable_',
-                      icon: Icons.ac_unit,
-                      color: Colors.teal,
+        child: _actividades.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: _actividades.length,
+                itemBuilder: (context, index) {
+                  final actividad = _actividades[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(
+                          0xFFBF4141,
+                        ), // 🎨 color del botón
+                        padding: const EdgeInsets.all(16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (_) => EjercicioScreen()),
                         );
                       },
+                      child: Text(
+                        actividad['nombre'] ?? 'Sin nombre',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomActionButton(
-                      label: 'Botón 2',
-                      icon: Icons.access_alarm,
-                      color: Colors.orange,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => EjercicioScreen()),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 80),
-            // Fila 2
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomActionButton(
-                      label: 'Botón 3',
-                      icon: Icons.accessibility,
-                      color: Colors.blue,
-                      onPressed: () {},
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomActionButton(
-                      label: 'Botón 4',
-                      icon: Icons.account_balance,
-                      color: Colors.purple,
-                      onPressed: () {},
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 80),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomActionButton(
-                      label: 'Botón 3',
-                      icon: Icons.accessibility,
-                      color: Colors.blue,
-                      onPressed: () {},
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomActionButton(
-                      label: 'Botón 4',
-                      icon: Icons.account_balance,
-                      color: Colors.purple,
-                      onPressed: () {},
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+                  );
+                },
+              ),
       ),
     );
   }

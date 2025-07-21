@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Neru'),
+        title: Text('NERU'),
         centerTitle: true,
         backgroundColor: Color(0xFFBF4141),
         foregroundColor: Colors.white,
@@ -97,12 +97,17 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: Column(
           children: [
-            const SizedBox(height: 40),
+            const SizedBox(height: 10),
             Image.asset('assets/logo.png', height: 100),
-            const SizedBox(height: 16),
+            const SizedBox(height: 4),
             const Text(
               "Bienvenido",
-              style: TextStyle(color: Colors.white, fontSize: 20),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontFamily: 'Monserrat',
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 32),
             CustomActionButton(

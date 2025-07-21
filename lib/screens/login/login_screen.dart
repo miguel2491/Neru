@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:neru/model/variable.dart';
+import 'package:neru/services/api.dart' as api_service;
+import 'package:neru/services/db_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../widgets/combo.dart';
 import '../register_screen.dart';
@@ -43,13 +46,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      print('==========> $data');
+      await _loadVariables();
+      await _loadActividades();
+      if (!mounted) return;
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => const HomeScreen()),
       );
       if (data.length > 0) {
-        print('😎 $data');
         final data_ = jsonDecode(response.body);
         if (data_ is List && data_.isNotEmpty) {
           final user = data[0]; // Primer usuario de la lista
@@ -58,13 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
           await prefs.setString('auth_usuario', user['usuario']);
           await prefs.setString('auth_nombre', user['nombre']);
           await prefs.setString('auth_rol', user['rol']);
-          await prefs.setString(
-            'auth_token',
-            user['token'],
-          ); // Aunque ahora es "-"
-
-          print('Usuario guardado: ${user['usuario']}');
-
+          await prefs.setString('auth_token', user['token']);
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (_) => const HomeScreen()),
@@ -87,6 +86,28 @@ class _LoginScreenState extends State<LoginScreen> {
       context,
       MaterialPageRoute(builder: (_) => const RegisterScreen()),
     );
+  }
+
+  Future<void> _loadVariables() async {
+    try {
+      final variables = await api_service.fVariable();
+      // Transforma Variable -> Map<String, dynamic>
+      final variableMaps = variables.map((v) => v.toMap()).toList();
+      await DBHelper.clearAndInsertVar(variableMaps);
+    } catch (e) {
+      print('⚠️ Error cargando variables: $e');
+    }
+  }
+
+  Future<void> _loadActividades() async {
+    try {
+      final actividad = await api_service.fActividades();
+      print('☠️ $actividad');
+      final actividadesMap = actividad.map((v) => v.toMap()).toList();
+      await DBHelper.clearAndInsertAct(actividadesMap);
+    } catch (e) {
+      print('⚠️ Error cargando variables: $e');
+    }
   }
 
   void _showError(String msg) {

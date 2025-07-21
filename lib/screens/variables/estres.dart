@@ -6,7 +6,7 @@ import 'package:neru/screens/progreso.dart';
 import 'package:neru/screens/variables/actividades.dart';
 
 class EstresScreen extends StatefulWidget {
-  final String variable;
+  final int variable;
 
   const EstresScreen({super.key, required this.variable});
   @override
@@ -66,15 +66,20 @@ class _EstresScreenState extends State<EstresScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final Map<String, String> imageMap = {
-      'Control de estrés y ansiedad': 'assets/variables/Estres.jpg',
-      'Concentración': 'assets/variables/Concentracion.jpg',
-      'Autoconfianza y seguridad': 'assets/variables/Autoconfianza.jpg',
-      'Motivación': 'assets/variables/motivacion.jpg',
-      'Activación mental': 'assets/variables/Activacion.jpg',
-      'Control emocional': 'assets/variables/emocional.jpg',
-      'Objetivos o metas': 'assets/variables/Objetivo.jpg',
+    final Map<int, String> imageMap = {
+      1: 'assets/variables/Estres.jpg',
+      2: 'assets/variables/Concentracion.jpg',
+      3: 'assets/variables/Autoconfianza.jpg',
+      4: 'assets/variables/motivacion.jpg',
+      5: 'assets/variables/Activacion.jpg',
+      6: 'assets/variables/emocional.jpg',
+      7: 'assets/variables/Objetivo.jpg',
     };
 
     final String? imagePath = imageMap[widget.variable];

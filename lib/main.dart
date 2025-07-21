@@ -25,7 +25,10 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'NERU',
       debugShowCheckedModeBanner: true,
-      theme: ThemeData(primaryColor: Color(0xFF494859)),
+      theme: ThemeData(
+        primaryColor: Color(0xFF494859),
+        fontFamily: 'Monserrat',
+      ),
       home: CheckAuthScreen(),
     );
   }

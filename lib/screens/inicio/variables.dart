@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:neru/screens/variables/estres.dart';
+import 'package:neru/services/api.dart' as api_services;
+import 'package:neru/services/db_helper.dart';
 import 'package:neru/widgets/audio.dart';
 import 'package:neru/widgets/boton.dart';
 
@@ -10,6 +12,12 @@ class VariablesScreen extends StatefulWidget {
 }
 
 class _VariablesScreenState extends State<VariablesScreen> {
+  @override
+  void initState() {
+    super.initState();
+    api_services.mVariablesLocales();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,60 +34,83 @@ class _VariablesScreenState extends State<VariablesScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-          child: Column(
-            children: [
-              SizedBox(
-                width: double.infinity,
-                child: AudioPlayButton(
-                  color: const Color(0xFFBF4141),
-                  assetPath: 'audio/muscular.mp3',
-                  label: 'Escuchar explicación',
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  // Esto asegura que Column se estire
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: AudioPlayButton(
+                          color: const Color(0xFFBF4141),
+                          assetPath: 'audio/muscular.mp3',
+                          label: 'Escuchar explicación',
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      FutureBuilder<List<Widget>>(
+                        future: _buildButtons(context),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: Text('Error: ${snapshot.error}'),
+                            );
+                          }
+
+                          final buttons = snapshot.data ?? [];
+
+                          return Column(children: buttons);
+                        },
+                      ),
+                      const Spacer(), // empuja los elementos hacia arriba si hay espacio de sobra
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 32),
-              ..._buildButtons(context),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
   }
 
-  List<Widget> _buildButtons(BuildContext context) {
-    final buttons = [
-      'Control de estrés y ansiedad',
-      'Concentración',
-      'Autoconfianza y seguridad',
-      'Motivación',
-      'Activación mental',
-      'Control emocional',
-      'Objetivos o metas',
-    ];
+  Future<List<Widget>> _buildButtons(BuildContext context) async {
+    final variables = await DBHelper.getVariablesDB();
 
-    return buttons
-        .map(
-          (label) => Padding(
-            padding: const EdgeInsets.only(bottom: 32),
-            child: SizedBox(
-              width: double.infinity,
-              child: CustomActionButton(
-                label: label,
-                icon: Icons.show_chart,
-                color: const Color(0xFFBF4141),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => EstresScreen(variable: label),
-                    ),
-                  );
-                },
-              ),
-            ),
+    return variables.map<Widget>((v) {
+      final idVar = v['id'];
+      final label = v['nombre'];
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 32),
+        child: SizedBox(
+          width: double.infinity,
+          child: CustomActionButton(
+            label: label,
+            icon: Icons.show_chart,
+            color: const Color(0xFFBF4141),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => EstresScreen(variable: idVar),
+                ),
+              );
+            },
           ),
-        )
-        .toList();
+        ),
+      );
+    }).toList();
   }
 }

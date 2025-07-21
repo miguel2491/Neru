@@ -52,10 +52,17 @@ class _AudioPlayButtonState extends State<AudioPlayButton> {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         backgroundColor: widget.color,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
       ),
-      icon: Icon(isPlaying ? Icons.pause_circle : Icons.play_arrow),
-      label: Text(widget.label),
+      icon: Icon(
+        isPlaying ? Icons.pause_circle : Icons.play_arrow,
+        color: Colors.white,
+        size: 32,
+      ),
+      label: Text(
+        widget.label,
+        style: const TextStyle(fontSize: 18, color: Colors.white),
+      ),
       onPressed: _toggleAudio,
     );
   }
