@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:neru/screens/home_screen.dart';
+import 'package:neru/screens/perfil.dart';
+import 'package:neru/screens/progreso.dart';
 import 'package:neru/screens/variables/estres.dart';
 import 'package:neru/services/api.dart' as api_services;
 import 'package:neru/services/db_helper.dart';
 import 'package:neru/widgets/audio.dart';
 import 'package:neru/widgets/boton.dart';
+import 'package:neru/widgets/bottom_nav.dart';
 
 class VariablesScreen extends StatefulWidget {
   const VariablesScreen({super.key});
@@ -12,6 +16,32 @@ class VariablesScreen extends StatefulWidget {
 }
 
 class _VariablesScreenState extends State<VariablesScreen> {
+  final int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    if (index == 0) {
+      return; // no cambies _selectedIndex si navegas
+    } else if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ProgresoScreen()),
+      );
+      return;
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+      return;
+    } else if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const PerfilScreen()),
+      );
+      return;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -48,7 +78,7 @@ class _VariablesScreenState extends State<VariablesScreen> {
                         width: double.infinity,
                         child: AudioPlayButton(
                           color: const Color(0xFFBF4141),
-                          assetPath: 'audio/muscular.mp3',
+                          url: 'audio/muscular.mp3',
                           label: 'Escuchar explicación',
                         ),
                       ),
@@ -82,6 +112,10 @@ class _VariablesScreenState extends State<VariablesScreen> {
             );
           },
         ),
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }

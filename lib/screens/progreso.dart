@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:neru/screens/home_screen.dart';
+import 'package:neru/screens/inicio/variables.dart';
+import 'package:neru/screens/perfil.dart';
+import 'package:neru/services/api.dart' as api_services;
+import 'package:neru/services/db_helper.dart';
+import 'package:neru/widgets/bottom_nav.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProgresoScreen extends StatefulWidget {
   const ProgresoScreen({super.key});
@@ -11,6 +18,31 @@ class ProgresoScreen extends StatefulWidget {
 
 class _ProgresoScreenState extends State<ProgresoScreen> {
   double progreso = 0.0;
+  final int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    if (index == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const VariablesScreen()),
+      );
+      return; // no cambies _selectedIndex si navegas
+    } else if (index == 1) {
+      return;
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+      return;
+    } else if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const PerfilScreen()),
+      );
+      return;
+    }
+  }
 
   void aumentarProgreso() {
     setState(() {
@@ -18,6 +50,40 @@ class _ProgresoScreenState extends State<ProgresoScreen> {
         progreso += 0.1;
       }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final user = prefs.getString('auth_nombre');
+
+    final usuarioAct = await DBHelper.getUserActDB(user!);
+    final activTotal = await DBHelper.getActividadesDB();
+
+    if (usuarioAct.isEmpty) {
+      print('❌ No hay Actividades guardadas');
+    } else {
+      print('📊 Total de registros: ${usuarioAct.length}');
+      print('🚕 Total de registros: ${activTotal.length}');
+      final promedio = usuarioAct.length / activTotal.length;
+      final promedioR = promedio.toStringAsFixed(2);
+      print('📈 Promedio: $promedioR');
+      print('🎈 Progreso: ${(promedio * 100).toStringAsFixed(2)}%');
+      progreso = promedio;
+      setState(() {
+        progreso = promedio;
+      });
+      for (var user in usuarioAct) {
+        print(
+          '📦 Variable: ${user['id']} | ${user['idusuario']} | ${user['idactividad']} | ${user['estatus']} | ${user['fca_creacion']}',
+        );
+      }
+    }
   }
 
   @override
@@ -86,17 +152,21 @@ class _ProgresoScreenState extends State<ProgresoScreen> {
             const SizedBox(height: 32),
 
             // Button to increase progress
-            ElevatedButton.icon(
-              onPressed: aumentarProgreso,
-              icon: const Icon(Icons.arrow_upward),
-              label: const Text("Aumentar progreso"),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.redAccent,
-                foregroundColor: Colors.white,
-              ),
-            ),
+            // ElevatedButton.icon(
+            //   onPressed: aumentarProgreso,
+            //   icon: const Icon(Icons.arrow_upward),
+            //   label: const Text("Aumentar progreso"),
+            //   style: ElevatedButton.styleFrom(
+            //     backgroundColor: Colors.redAccent,
+            //     foregroundColor: Colors.white,
+            //   ),
+            // ),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }

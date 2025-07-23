@@ -30,8 +30,18 @@ class DBHelper {
         estatus TEXT
       )
     ''');
+    await db.execute('''
+      CREATE TABLE usuario_actividad (
+        id INTEGER PRIMARY KEY,
+        idusuario TEXT,
+        idactividad INTEGER,
+        estatus TEXT,
+        fca_creacion DATETIME
+      )
+    ''');
   }
 
+  //CREATE
   static Future<void> clearAndInsertVar(List<dynamic> varia) async {
     final db = await database;
 
@@ -65,6 +75,24 @@ class DBHelper {
     }
   }
 
+  static Future<void> clearAndInsertUserAct(List<dynamic> usract) async {
+    final db = await database;
+    // Borrar los datos actuales
+    await db.delete('usuario_actividad');
+
+    // Insertar nuevos datos
+    for (var ua in usract) {
+      await db.insert('usuario_actividad', {
+        'id': ua['id'],
+        'idusuario': ua['idusuario'],
+        'idactividad': ua['idactividad'],
+        'estatus': ua['estatus'],
+        'fca_creacion': ua['fca_creacion'],
+      }, conflictAlgorithm: ConflictAlgorithm.replace);
+    }
+  }
+
+  //READ
   static Future<List<Map<String, dynamic>>> getVariablesDB() async {
     final db = await database;
     return await db.query('variables');
@@ -83,6 +111,17 @@ class DBHelper {
       'actividades',
       where: 'idvariable = ?',
       whereArgs: [variableId],
+    );
+  }
+
+  static Future<List<Map<String, dynamic>>> getUserActDB(
+    String idusuario,
+  ) async {
+    final db = await database;
+    return await db.query(
+      'usuario_actividad',
+      where: 'idusuario = ?',
+      whereArgs: [idusuario],
     );
   }
 }

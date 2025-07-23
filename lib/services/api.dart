@@ -28,7 +28,6 @@ Future<List<Actividad>> fActividades() async {
   );
   if (response.statusCode == 200) {
     final List data = jsonDecode(response.body);
-    print('✌️ ${data}');
     return data.map((json) => Actividad.fromJson(json)).toList();
   } else {
     throw Exception('Error al cargar productos');
@@ -39,7 +38,7 @@ Future<List<Actividad>> fActividades() async {
 void mVariablesLocales() async {
   final usuarios = await DBHelper.getVariablesDB();
   if (usuarios.isEmpty) {
-    print('❌ No hay variables guardadas');
+    //print('❌ No hay variables guardadas');
   } else {
     for (var user in usuarios) {
       print(
@@ -47,5 +46,20 @@ void mVariablesLocales() async {
       );
     }
   }
-  print('💀☠️👻 $usuarios');
+}
+
+void mUsuarioAct() async {
+  final prefs = await SharedPreferences.getInstance();
+  final user = prefs.getString('auth_nombre');
+
+  final usuarioAct = await DBHelper.getUserActDB(user!);
+  if (usuarioAct.isEmpty) {
+    print('❌ No hay Actividades guardadas');
+  } else {
+    for (var user in usuarioAct) {
+      print(
+        '📦 Variable: ${user['id']} | ${user['idusuario']} | ${user['idactividad']} | ${user['estatus']} | ${user['fca_creacion']}',
+      );
+    }
+  }
 }

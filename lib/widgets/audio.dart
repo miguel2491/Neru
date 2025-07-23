@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:just_audio/just_audio.dart';
 
 class AudioPlayButton extends StatefulWidget {
-  final String assetPath;
-  final Color color;
+  final String url;
   final String label;
+  final Color color;
 
   const AudioPlayButton({
     super.key,
-    required this.assetPath,
+    required this.url,
     required this.label,
-    this.color = Colors.teal,
+    required this.color,
   });
 
   @override
@@ -18,52 +18,43 @@ class AudioPlayButton extends StatefulWidget {
 }
 
 class _AudioPlayButtonState extends State<AudioPlayButton> {
-  late AudioPlayer _player;
-  bool isPlaying = false;
+  late AudioPlayer _audioPlayer;
+  bool _isPlaying = false;
 
   @override
   void initState() {
     super.initState();
-    _player = AudioPlayer();
-
-    _player.onPlayerStateChanged.listen((state) {
-      setState(() {
-        isPlaying = state == PlayerState.playing;
-      });
-    });
+    _audioPlayer = AudioPlayer();
+    _audioPlayer.setUrl(widget.url);
   }
 
   @override
   void dispose() {
-    _player.dispose();
+    _audioPlayer.dispose();
     super.dispose();
   }
 
-  void _toggleAudio() async {
-    if (isPlaying) {
-      await _player.pause();
+  void _togglePlayback() async {
+    if (_isPlaying) {
+      await _audioPlayer.pause();
     } else {
-      await _player.play(AssetSource(widget.assetPath));
+      await _audioPlayer.play();
     }
+    setState(() {
+      _isPlaying = !_isPlaying;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
+      onPressed: _togglePlayback,
+      icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
+      label: Text(widget.label),
       style: ElevatedButton.styleFrom(
         backgroundColor: widget.color,
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+        foregroundColor: Colors.white,
       ),
-      icon: Icon(
-        isPlaying ? Icons.pause_circle : Icons.play_arrow,
-        color: Colors.white,
-        size: 32,
-      ),
-      label: Text(
-        widget.label,
-        style: const TextStyle(fontSize: 18, color: Colors.white),
-      ),
-      onPressed: _toggleAudio,
     );
   }
 }

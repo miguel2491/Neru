@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:neru/screens/calendario.dart';
-import 'package:neru/screens/entrenamiento.dart';
 import 'package:neru/screens/inicio/intro_psic.dart';
 import 'package:neru/screens/inicio/intro_slider.dart';
+import 'package:neru/screens/inicio/variables.dart';
 import 'package:neru/screens/perfil.dart';
 import 'package:neru/screens/progreso.dart';
-import '../widgets/app_drawer.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:neru/widgets/bottom_nav.dart';
+//import '../widgets/app_drawer.dart';
 import 'package:neru/widgets/boton.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,6 +16,34 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    if (index == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const VariablesScreen()),
+      );
+      return; // no cambies _selectedIndex si navegas
+    } else if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ProgresoScreen()),
+      );
+      return;
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+      return;
+    } else if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const PerfilScreen()),
+      );
+      return;
+    }
+  }
 
   final List<Widget> _pages = [
     Center(
@@ -36,37 +63,6 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   ];
 
-  void _onItemTapped(int index) {
-    if (index == 0) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const EntrenamientoScreen()),
-      );
-      return; // no cambies _selectedIndex si navegas
-    } else if (index == 1) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const ProgresoScreen()),
-      );
-      return;
-    } else if (index == 3) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const CalendarioScreen()),
-      );
-      return;
-    } else if (index == 4) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const PerfilScreen()),
-      );
-      return;
-    }
-    // setState(() {
-    //   _selectedIndex = index;
-    // });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Color(0xFFBF4141),
         foregroundColor: Colors.white,
       ),
-      drawer: const AppDrawer(),
+      // drawer: const AppDrawer(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.redAccent,
         onPressed: () {
@@ -156,29 +152,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color(0xFFBF4141),
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white70,
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.brain),
-            label: 'Entreno',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.chartPie),
-            label: 'Progreso',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month),
-            label: 'Calendario',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
-        ],
-        type: BottomNavigationBarType.fixed,
+      bottomNavigationBar: CustomBottomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }

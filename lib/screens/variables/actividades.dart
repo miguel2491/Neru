@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:neru/screens/calendario.dart';
 import 'package:neru/screens/entrenamiento.dart';
+import 'package:neru/screens/home_screen.dart';
+import 'package:neru/screens/inicio/variables.dart';
 import 'package:neru/screens/perfil.dart';
 import 'package:neru/screens/progreso.dart';
 import 'package:neru/screens/variables/ejercicio.dart';
 import 'package:neru/services/api.dart' as api_services;
 import 'package:neru/services/db_helper.dart';
-import 'package:neru/widgets/boton.dart';
+import 'package:neru/widgets/bottom_nav.dart';
 
 class ActividadesScreen extends StatefulWidget {
   final int variable;
@@ -16,7 +18,37 @@ class ActividadesScreen extends StatefulWidget {
 }
 
 class _ActividadesScreenState extends State<ActividadesScreen> {
+  final int _selectedIndexNav = 0;
   final int _selectedIndex = 0;
+
+  void _onItemTappedNav(int index) {
+    if (index == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const VariablesScreen()),
+      );
+      return; // no cambies _selectedIndex si navegas
+    } else if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ProgresoScreen()),
+      );
+      return;
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+      return;
+    } else if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const PerfilScreen()),
+      );
+      return;
+    }
+  }
+
   List<Map<String, dynamic>> _actividades = [];
 
   final List<Widget> _pages = [
@@ -134,7 +166,12 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => EjercicioScreen()),
+                          MaterialPageRoute(
+                            builder: (_) => EjercicioScreen(
+                              ruta: actividad['ruta'],
+                              id: actividad['id'],
+                            ),
+                          ),
                         );
                       },
                       child: Text(
@@ -148,6 +185,10 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
                   );
                 },
               ),
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        selectedIndex: _selectedIndexNav,
+        onItemTapped: _onItemTappedNav,
       ),
     );
   }

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:neru/screens/entrenamiento.dart';
+import 'package:neru/screens/perfil.dart';
+import 'package:neru/screens/progreso.dart';
 import 'package:neru/widgets/audio.dart';
+import 'package:neru/widgets/bottom_nav.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
@@ -8,6 +12,30 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
+  final int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    if (index == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const EntrenamientoScreen()),
+      );
+      return; // no cambies _selectedIndex si navegas
+    } else if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ProgresoScreen()),
+      );
+      return;
+    } else if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const PerfilScreen()),
+      );
+      return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,12 +59,13 @@ class _IntroScreenState extends State<IntroScreen> {
             const SizedBox(height: 84),
             AudioPlayButton(
               color: const Color(0xFFBF4141),
-              assetPath: 'audio/muscular.mp3',
-              label: 'Escuchar explicación',
+              url:
+                  'https://gcconsultoresmexico.com/audios/psicologia_deporte.mp3',
+              label: '¿Que es psicología del deporte?',
             ),
             const SizedBox(height: 32),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 70.0, vertical: 30.0),
+              padding: EdgeInsets.symmetric(horizontal: 55.0, vertical: 10.0),
               child: Text(
                 '¿Estas listo para aumentar tu rendimiento DEPORTIVO?',
                 style: TextStyle(
@@ -47,8 +76,19 @@ class _IntroScreenState extends State<IntroScreen> {
                 ),
               ),
             ),
+            const SizedBox(height: 32),
+            AudioPlayButton(
+              color: const Color(0xFFBF4141),
+              url:
+                  'https://gcconsultoresmexico.com/audios/psicologo_deportivo.mp3',
+              label: '¿Por que ir con un psicologo deportivo?',
+            ),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }
