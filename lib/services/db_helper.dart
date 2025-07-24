@@ -32,7 +32,7 @@ class DBHelper {
     ''');
     await db.execute('''
       CREATE TABLE usuario_actividad (
-        id INTEGER PRIMARY KEY,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         idusuario TEXT,
         idactividad INTEGER,
         estatus TEXT,
@@ -77,13 +77,10 @@ class DBHelper {
 
   static Future<void> clearAndInsertUserAct(List<dynamic> usract) async {
     final db = await database;
-    // Borrar los datos actuales
-    await db.delete('usuario_actividad');
 
     // Insertar nuevos datos
     for (var ua in usract) {
       await db.insert('usuario_actividad', {
-        'id': ua['id'],
         'idusuario': ua['idusuario'],
         'idactividad': ua['idactividad'],
         'estatus': ua['estatus'],
@@ -120,8 +117,17 @@ class DBHelper {
     final db = await database;
     return await db.query(
       'usuario_actividad',
-      where: 'idusuario = ?',
-      whereArgs: [idusuario],
+      //where: 'idusuario = ?',
+      //whereArgs: [idusuario],
+    );
+  }
+
+  static Future<List<Map<String, dynamic>>> getActUsrDB(int id) async {
+    final db = await database;
+    return await db.query(
+      'usuario_actividad',
+      where: 'idactividad = ?',
+      whereArgs: [id],
     );
   }
 }

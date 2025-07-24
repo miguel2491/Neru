@@ -61,7 +61,6 @@ class _ProgresoScreenState extends State<ProgresoScreen> {
   Future<void> _checkLoginStatus() async {
     final prefs = await SharedPreferences.getInstance();
     final user = prefs.getString('auth_nombre');
-
     final usuarioAct = await DBHelper.getUserActDB(user!);
     final activTotal = await DBHelper.getActividadesDB();
 

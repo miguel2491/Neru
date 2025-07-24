@@ -73,9 +73,36 @@ class _EjercicioScreenState extends State<EjercicioScreen> {
   Future<void> _checkLoginStatus() async {
     final prefs = await SharedPreferences.getInstance();
     final user = prefs.getString('auth_nombre');
-    setState(() {
-      usuario = user; // Actualizas el estado para que lo refleje el widget
-    });
+    print('👻${widget.id}');
+    print('👻$user');
+    final usuarioAct = await DBHelper.getActUsrDB(widget.id);
+    print('💀 $usuarioAct');
+    if (usuarioAct.isNotEmpty) {
+      if (usuarioAct.isNotEmpty) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Éxito'),
+            content: Text('Actividad YA realizada correctamente'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ActividadesScreen(variable: widget.id),
+                    ),
+                  );
+                },
+                child: Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+    }
+    setState(() {});
   }
 
   @override
@@ -126,8 +153,6 @@ class _EjercicioScreenState extends State<EjercicioScreen> {
                     children: [
                       GestureDetector(
                         onTap: () async {
-                          print('👻☠️ $usuario 💀😎');
-                          print('👻🎈✨ ${widget.id} 💀😎');
                           //final successMap = actividad.map((v) => v.toMap()).toList();
                           await DBHelper.clearAndInsertUserAct([
                             {
@@ -137,6 +162,30 @@ class _EjercicioScreenState extends State<EjercicioScreen> {
                               'fca_creacion': DateTime.now().toIso8601String(),
                             },
                           ]);
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Éxito'),
+                              content: Text(
+                                'Actividad Realizada correctamente',
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ActividadesScreen(
+                                          variable: widget.id,
+                                        ),
+                                      ),
+                                    ),
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(
