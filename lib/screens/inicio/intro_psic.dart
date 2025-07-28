@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:neru/screens/entrenamiento.dart';
+import 'package:neru/screens/home_screen.dart';
 import 'package:neru/screens/perfil.dart';
 import 'package:neru/screens/progreso.dart';
 import 'package:neru/widgets/audio.dart';
@@ -24,10 +25,10 @@ class _IntroScreenState extends State<IntroScreen> {
     } else if (index == 1) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const ProgresoScreen()),
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
       return;
-    } else if (index == 3) {
+    } else if (index == 2) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const PerfilScreen()),

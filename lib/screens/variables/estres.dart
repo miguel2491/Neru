@@ -74,12 +74,12 @@ class _EstresScreenState extends State<EstresScreen> {
   Widget build(BuildContext context) {
     final Map<int, String> imageMap = {
       1: 'assets/variables/Estres.jpg',
-      2: 'assets/variables/Concentracion.jpg',
-      3: 'assets/variables/Autoconfianza.jpg',
-      4: 'assets/variables/motivacion.jpg',
-      5: 'assets/variables/Activacion.jpg',
-      6: 'assets/variables/emocional.jpg',
-      7: 'assets/variables/Objetivo.jpg',
+      2: 'assets/variables/Concentracion.png',
+      3: 'assets/variables/Autoconfianza.png',
+      4: 'assets/variables/Motivacion.png',
+      5: 'assets/variables/Activacion.png',
+      6: 'assets/variables/Autocontrol.png',
+      7: 'assets/variables/Objetivo.png',
     };
 
     final String? imagePath = imageMap[widget.variable];
@@ -102,6 +102,7 @@ class _EstresScreenState extends State<EstresScreen> {
           image: DecorationImage(
             image: AssetImage(imagePath ?? 'assets/fondo.png'),
             fit: BoxFit.cover,
+            alignment: Alignment(-0.5, 0),
           ),
         ),
         child: Column(

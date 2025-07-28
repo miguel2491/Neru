@@ -49,16 +49,10 @@ class _EjercicioScreenState extends State<EjercicioScreen> {
     } else if (index == 1) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const ProgresoScreen()),
-      );
-      return;
-    } else if (index == 3) {
-      Navigator.push(
-        context,
         MaterialPageRoute(builder: (context) => const CalendarioScreen()),
       );
       return;
-    } else if (index == 4) {
+    } else if (index == 2) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const PerfilScreen()),

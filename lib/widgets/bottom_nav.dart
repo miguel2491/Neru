@@ -25,10 +25,6 @@ class CustomBottomNavBar extends StatelessWidget {
           icon: FaIcon(FontAwesomeIcons.brain),
           label: 'Entreno',
         ),
-        BottomNavigationBarItem(
-          icon: FaIcon(FontAwesomeIcons.chartPie),
-          label: 'Progreso',
-        ),
         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
         BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
       ],

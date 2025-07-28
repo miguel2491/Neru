@@ -27,16 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
     } else if (index == 1) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const ProgresoScreen()),
-      );
-      return;
-    } else if (index == 2) {
-      Navigator.push(
-        context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
       return;
-    } else if (index == 3) {
+    } else if (index == 2) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const PerfilScreen()),
