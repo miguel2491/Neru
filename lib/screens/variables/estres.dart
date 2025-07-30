@@ -68,14 +68,15 @@ class _EstresScreenState extends State<EstresScreen> {
   @override
   void initState() {
     super.initState();
+    print('🚕${widget.variable}');
   }
 
   @override
   Widget build(BuildContext context) {
     final Map<int, String> imageMap = {
       1: 'assets/variables/Estres.jpg',
-      2: 'assets/variables/Concentracion.png',
-      3: 'assets/variables/Autoconfianza.png',
+      2: 'assets/variables/Autoconfianza.png',
+      3: 'assets/variables/Concentracion.png',
       4: 'assets/variables/Motivacion.png',
       5: 'assets/variables/Activacion.png',
       6: 'assets/variables/Autocontrol.png',

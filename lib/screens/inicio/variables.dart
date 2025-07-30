@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:neru/screens/home_screen.dart';
 import 'package:neru/screens/perfil.dart';
-import 'package:neru/screens/progreso.dart';
 import 'package:neru/screens/variables/estres.dart';
 import 'package:neru/services/api.dart' as api_services;
 import 'package:neru/services/db_helper.dart';
@@ -46,7 +45,7 @@ class _VariablesScreenState extends State<VariablesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Neru'),
+        title: Text('Variables'),
         centerTitle: true,
         backgroundColor: Color(0xFFBF4141),
         foregroundColor: Colors.white,
@@ -72,7 +71,8 @@ class _VariablesScreenState extends State<VariablesScreen> {
                         width: double.infinity,
                         child: AudioPlayButton(
                           color: const Color(0xFFBF4141),
-                          url: 'audio/muscular.mp3',
+                          url:
+                              'https://gcconsultoresmexico.com/audios/psicologia_deporte.mp3',
                           label: 'Escuchar explicación',
                         ),
                       ),

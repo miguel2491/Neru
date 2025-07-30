@@ -104,7 +104,7 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
     final actividades = await DBHelper.getActividadesByVariableId(
       widget.variable,
     );
-    print('👻 $actividades');
+    print('👻🌋 $actividades');
     setState(() {
       _actividades = actividades;
     });
@@ -124,7 +124,7 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
     final String? variable_ = imageMap[widget.variable];
     return Scaffold(
       appBar: AppBar(
-        title: Text('Neru'),
+        title: Text('Neru Actividad'),
         centerTitle: true,
         backgroundColor: Color(0xFFBF4141),
         foregroundColor: Colors.white,
@@ -164,6 +164,8 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
                             builder: (_) => EjercicioScreen(
                               ruta: actividad['ruta'],
                               id: actividad['id'],
+                              ida: actividad['idvariable'],
+                              ide: actividad['id'],
                             ),
                           ),
                         );

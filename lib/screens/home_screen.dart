@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:neru/screens/inicio/intro_psic.dart';
 import 'package:neru/screens/inicio/intro_slider.dart';
 import 'package:neru/screens/inicio/variables.dart';
+import 'package:neru/screens/login/login_screen.dart';
 import 'package:neru/screens/perfil.dart';
 import 'package:neru/screens/progreso.dart';
+import 'package:neru/services/db_helper.dart';
 import 'package:neru/widgets/bottom_nav.dart';
 //import '../widgets/app_drawer.dart';
 import 'package:neru/widgets/boton.dart';
@@ -65,6 +67,49 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         backgroundColor: Color(0xFFBF4141),
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Cerrar sesión"),
+                    content: const Text("¿Desea cerrar sesión?"),
+                    actions: [
+                      TextButton(
+                        child: const Text("Cancelar"),
+                        onPressed: () {
+                          Navigator.of(context).pop(); // Cierra el diálogo
+                        },
+                      ),
+                      TextButton(
+                        child: const Text("Sí, salir"),
+                        onPressed: () async {
+                          // 🔹 Aquí borras tus tablas locales
+                          await DBHelper.borrarTablasLocales(); // tu función de borrado SQL
+                          // 🔹 Cierra el diálogo
+                          // ignore: use_build_context_synchronously
+                          Navigator.of(context).pop();
+
+                          // 🔹 Navega al login (y elimina el stack de pantallas previas)
+                          Navigator.pushReplacement(
+                            // ignore: use_build_context_synchronously
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const LoginScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+        ],
       ),
       // drawer: const AppDrawer(),
       floatingActionButton: FloatingActionButton(
@@ -85,20 +130,12 @@ class _HomeScreenState extends State<HomeScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Column(
+        child: ListView(
+          padding: const EdgeInsets.all(16),
           children: [
             const SizedBox(height: 10),
             Image.asset('assets/logo.png', height: 100),
             const SizedBox(height: 4),
-            const Text(
-              "Bienvenido",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontFamily: 'Monserrat',
-                fontWeight: FontWeight.bold,
-              ),
-            ),
             const SizedBox(height: 32),
             CustomActionButton(
               label: '¿Que es la psicología del deporte?',
@@ -142,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             const SizedBox(height: 32),
-            Expanded(child: _pages[_selectedIndex]),
+            _pages[_selectedIndex],
           ],
         ),
       ),

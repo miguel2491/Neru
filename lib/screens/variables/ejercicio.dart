@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:neru/screens/calendario.dart';
 import 'package:neru/screens/entrenamiento.dart';
 import 'package:neru/screens/perfil.dart';
-import 'package:neru/screens/progreso.dart';
 import 'package:neru/screens/variables/actividades.dart';
 import 'package:neru/services/db_helper.dart';
 import 'package:neru/widgets/audio.dart';
@@ -11,8 +10,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 class EjercicioScreen extends StatefulWidget {
   final String ruta;
   final int id;
+  final int ida;
+  final int ide;
 
-  const EjercicioScreen({super.key, required this.ruta, required this.id});
+  const EjercicioScreen({
+    super.key,
+    required this.ruta,
+    required this.id,
+    required this.ida,
+    required this.ide,
+  });
   @override
   State<EjercicioScreen> createState() => _EjercicioScreenState();
 }
@@ -67,10 +74,8 @@ class _EjercicioScreenState extends State<EjercicioScreen> {
   Future<void> _checkLoginStatus() async {
     final prefs = await SharedPreferences.getInstance();
     final user = prefs.getString('auth_nombre');
-    print('👻${widget.id}');
-    print('👻$user');
-    final usuarioAct = await DBHelper.getActUsrDB(widget.id);
-    print('💀 $usuarioAct');
+    print('☠️👻${widget.id}');
+    final usuarioAct = await DBHelper.getActUsrDB(widget.ide);
     if (usuarioAct.isNotEmpty) {
       if (usuarioAct.isNotEmpty) {
         showDialog(
@@ -85,7 +90,7 @@ class _EjercicioScreenState extends State<EjercicioScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          ActividadesScreen(variable: widget.id),
+                          ActividadesScreen(variable: widget.ida),
                     ),
                   );
                 },
@@ -99,17 +104,23 @@ class _EjercicioScreenState extends State<EjercicioScreen> {
     setState(() {});
   }
 
+  Future<void> _check() async {
+    final actividades = await DBHelper.getUserActDB('1');
+    print('⌛🔓 $actividades');
+  }
+
   @override
   void initState() {
     super.initState();
     _checkLoginStatus();
+    _check();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Neru'),
+        title: Text('Neru Ejercicio'),
         centerTitle: true,
         backgroundColor: Color(0xFFBF4141),
         foregroundColor: Colors.white,
@@ -148,38 +159,52 @@ class _EjercicioScreenState extends State<EjercicioScreen> {
                       GestureDetector(
                         onTap: () async {
                           //final successMap = actividad.map((v) => v.toMap()).toList();
-                          await DBHelper.clearAndInsertUserAct([
+                          final result = await DBHelper.clearAndInsertUserAct([
                             {
                               'idusuario': usuario,
-                              'idactividad': widget.id,
+                              'idactividad': widget.ida,
+                              'idejercicio': widget.id,
                               'estatus': '1',
                               'fca_creacion': DateTime.now().toIso8601String(),
                             },
                           ]);
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text('Éxito'),
-                              content: Text(
-                                'Actividad Realizada correctamente',
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ActividadesScreen(
-                                          variable: widget.id,
+                          if (result > 0) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text('Éxito'),
+                                content: Text(
+                                  'Actividad Realizada correctamente',
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ActividadesScreen(
+                                                variable: widget.ida,
+                                              ),
                                         ),
                                       ),
-                                    ),
-                                  },
-                                  child: Text('OK'),
+                                    },
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (_) => const AlertDialog(
+                                title: Text('Error'),
+                                content: Text(
+                                  'No se pudo guardar la actividad',
                                 ),
-                              ],
-                            ),
-                          );
+                              ),
+                            );
+                          }
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(

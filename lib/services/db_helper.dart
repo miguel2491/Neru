@@ -35,6 +35,7 @@ class DBHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         idusuario TEXT,
         idactividad INTEGER,
+        idejercicio INTEGER,
         estatus TEXT,
         fca_creacion DATETIME
       )
@@ -75,18 +76,21 @@ class DBHelper {
     }
   }
 
-  static Future<void> clearAndInsertUserAct(List<dynamic> usract) async {
+  static Future<int> clearAndInsertUserAct(List<dynamic> usract) async {
     final db = await database;
-
+    int count = 0;
     // Insertar nuevos datos
     for (var ua in usract) {
-      await db.insert('usuario_actividad', {
+      final id = await db.insert('usuario_actividad', {
         'idusuario': ua['idusuario'],
         'idactividad': ua['idactividad'],
+        'idejercicio': ua['idejercicio'],
         'estatus': ua['estatus'],
         'fca_creacion': ua['fca_creacion'],
       }, conflictAlgorithm: ConflictAlgorithm.replace);
+      if (id > 0) count++;
     }
+    return count;
   }
 
   //READ
@@ -126,8 +130,40 @@ class DBHelper {
     final db = await database;
     return await db.query(
       'usuario_actividad',
-      where: 'idactividad = ?',
+      where: 'idejercicio = ?',
       whereArgs: [id],
     );
+  }
+
+  static Future<void> borrarTablasLocales() async {
+    // Abre la base de datos
+    final databasePath = await getDatabasesPath();
+    final path = join(databasePath, 'app.db'); // Usa el mismo nombre de tu DB
+    final db = await openDatabase(path);
+
+    // Borra todas las tablas
+    await db.execute('DROP TABLE IF EXISTS variables');
+    await db.execute('DROP TABLE IF EXISTS actividades');
+
+    // Si quieres volver a crearlas vacías, vuelve a crearlas aquí:
+    await db.execute('''
+    CREATE TABLE variables (
+      id INTEGER PRIMARY KEY,
+      nombre TEXT,
+      estatus TEXT
+    )
+  ''');
+
+    await db.execute('''
+    CREATE TABLE actividades (
+      id INTEGER PRIMARY KEY,
+      idvariable INTEGER,
+      nombre TEXT,
+      ruta TEXT,
+      estatus TEXT
+    )
+  ''');
+
+    await db.close(); // Cierra la DB
   }
 }

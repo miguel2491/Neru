@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neru/screens/home_screen.dart';
 import 'package:neru/screens/inicio/variables.dart';
-import 'package:neru/screens/progreso.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:neru/services/db_helper.dart';
 import 'package:neru/widgets/bottom_nav.dart';
 import 'package:neru/widgets/divisor.dart';
@@ -78,7 +78,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
   void initState() {
     super.initState();
     _checkStatus();
-    _checkLoginStatus();
+    //_checkLoginStatus();
   }
 
   @override
@@ -200,6 +200,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
                     animation: true,
                   ),
                 ),
+                const SizedBox(height: 32),
                 const SizedBox(height: 32),
               ],
             ),
