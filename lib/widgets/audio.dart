@@ -30,6 +30,7 @@ class _AudioPlayButtonState extends State<AudioPlayButton> {
 
   @override
   void dispose() {
+    _audioPlayer.stop(); // 🔹 Detener audio antes de liberar
     _audioPlayer.dispose();
     super.dispose();
   }

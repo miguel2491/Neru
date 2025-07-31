@@ -67,49 +67,16 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         backgroundColor: Color(0xFFBF4141),
         foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text("Cerrar sesión"),
-                    content: const Text("¿Desea cerrar sesión?"),
-                    actions: [
-                      TextButton(
-                        child: const Text("Cancelar"),
-                        onPressed: () {
-                          Navigator.of(context).pop(); // Cierra el diálogo
-                        },
-                      ),
-                      TextButton(
-                        child: const Text("Sí, salir"),
-                        onPressed: () async {
-                          // 🔹 Aquí borras tus tablas locales
-                          await DBHelper.borrarTablasLocales(); // tu función de borrado SQL
-                          // 🔹 Cierra el diálogo
-                          // ignore: use_build_context_synchronously
-                          Navigator.of(context).pop();
-
-                          // 🔹 Navega al login (y elimina el stack de pantallas previas)
-                          Navigator.pushReplacement(
-                            // ignore: use_build_context_synchronously
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const LoginScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.close),
+        //     onPressed: () {
+        //
+        //         },
+        //       );
+        //     },
+        //   ),
+        // ],
       ),
       // drawer: const AppDrawer(),
       floatingActionButton: FloatingActionButton(

@@ -45,9 +45,6 @@ class SlidePage extends StatelessWidget {
               ),
             ),
           ),
-          // Agregamos la flecha animada
-          if (showSwipeHint)
-            const Positioned(bottom: 100, right: 20, child: SwipeArrowHint()),
         ],
       ),
     );

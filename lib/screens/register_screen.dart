@@ -14,8 +14,10 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final userController = TextEditingController();
   final emailController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   final telefonoController = TextEditingController();
   final passwordController = TextEditingController();
+  final password2Controller = TextEditingController();
   final nombreController = TextEditingController();
   final appController = TextEditingController();
   final tokenController = TextEditingController();
@@ -38,12 +40,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        'usuario': username,
+        'usuario': email,
         'email': email,
-        'telefono': telefono,
+        'telefono': '---',
         'password': password,
-        'nombre': nombre,
-        'app': app,
+        'nombre': '---',
+        'app': '---',
         'token': '-',
         'direccion': '--',
         'rol': 'usuario',
@@ -102,8 +104,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         child: Center(
           child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
+            child: Form(
+              key: _formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -113,37 +115,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     'Registrate',
                     style: TextStyle(color: Colors.white, fontSize: 22),
                   ),
-                  const SizedBox(height: 20),
-                  _buildTextField(
-                    label: 'Nombre de Usuario',
-                    controller: userController,
-                  ),
-                  const SizedBox(height: 20),
-                  _buildTextField(
-                    label: 'Nombre',
-                    controller: nombreController,
-                  ),
-                  const SizedBox(height: 20),
-                  _buildTextField(
-                    label: 'Apellidos',
-                    controller: appController,
-                  ),
+                  // const SizedBox(height: 20),
+                  // _buildTextField(
+                  //   label: 'Nombre de Usuario',
+                  //   controller: userController,
+                  // ),
+                  // const SizedBox(height: 20),
+                  // _buildTextField(
+                  //   label: 'Nombre',
+                  //   controller: nombreController,
+                  // ),
+                  // const SizedBox(height: 20),
+                  // _buildTextField(
+                  //   label: 'Apellidos',
+                  //   controller: appController,
+                  // ),
                   const SizedBox(height: 20),
                   _buildEmail(
                     label: 'Correo Electronico',
                     controller: emailController,
                   ),
                   const SizedBox(height: 20),
-                  _buildTextField(
+                  _buildPasswordField(
                     label: 'Password',
                     controller: passwordController,
-                    obscure: true,
                   ),
                   const SizedBox(height: 20),
-                  _textNumber(
-                    label: 'Teléfono',
-                    controller: telefonoController,
-                    onlyNumbers: true,
+                  _buildPasswordField(
+                    label: 'Validar Password',
+                    controller: password2Controller,
+                    isConfirm: true, // ✅ activa la validación de igualdad
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
@@ -154,7 +155,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         vertical: 12,
                       ),
                     ),
-                    onPressed: loading ? null : _register,
+                    onPressed: loading
+                        ? null
+                        : () {
+                            if (_formKey.currentState!.validate()) {
+                              _register(); // ✅ solo se ejecuta si todo es válido
+                            }
+                          },
                     child: loading
                         ? const CircularProgressIndicator(color: Colors.white)
                         : const Text(
@@ -217,27 +224,61 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildEmail({
     required String label,
     required TextEditingController controller,
-    bool obscure = false,
-    bool onlyNumbers = false,
-    bool isEmail = false,
   }) {
-    return TextField(
+    return TextFormField(
       controller: controller,
-      obscureText: obscure,
-      keyboardType: isEmail
-          ? TextInputType.emailAddress
-          : (onlyNumbers ? TextInputType.number : TextInputType.text),
-      inputFormatters: onlyNumbers
-          ? [FilteringTextInputFormatter.digitsOnly]
-          : [],
       style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: const TextStyle(color: Colors.white70),
         filled: true,
         fillColor: Colors.white10,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+        border: OutlineInputBorder(),
       ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Ingrese un correo';
+        }
+        final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+        if (!emailRegex.hasMatch(value)) {
+          return 'Formato de correo inválido';
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget _buildPasswordField({
+    required String label,
+    required TextEditingController controller,
+    bool isConfirm = false,
+  }) {
+    return TextFormField(
+      controller: controller,
+      obscureText: true,
+      style: const TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: const TextStyle(color: Colors.white70),
+        filled: true,
+        fillColor: Colors.white10,
+        border: OutlineInputBorder(),
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Ingrese la contraseña';
+        }
+        if (value.length < 6) {
+          return 'Debe tener mínimo 6 caracteres';
+        }
+
+        // ✅ Solo en el campo de confirmación
+        if (isConfirm && value != passwordController.text) {
+          return 'Las contraseñas no coinciden';
+        }
+
+        return null;
+      },
     );
   }
 }

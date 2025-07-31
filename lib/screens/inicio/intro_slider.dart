@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:neru/screens/inicio/slide_page.dart';
 import 'package:neru/screens/inicio/variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class IntroSlider extends StatefulWidget {
   const IntroSlider({super.key});
@@ -73,79 +74,107 @@ class _IntroSliderState extends State<IntroSlider> {
             fit: BoxFit.cover,
           ),
         ),
-        child: PageView(
-          controller: _controller,
-          onPageChanged: _onPageChanged,
+        child: Stack(
           children: [
-            SlidePage(
-              title: "Bienvenido",
-              description:
-                  "Elige la primera variable con la que quieres empezar y tu primera actividad",
-              showSwipeHint: true,
-              actions: [
-                ElevatedButton(
-                  onPressed: () => _saveSelection(0, "Concentración"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFBF4141),
-                  ),
-                  child: const Text(
-                    "Concentración",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () => _saveSelection(1, "Motivación"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFBF4141),
-                  ),
-                  child: const Text(
-                    "Motivación",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-            SlidePage(
-              title: "🔓",
-              description:
-                  "🔓\nFinaliza tu actividad para desbloquear nuevas actividades",
-              showSwipeHint: true,
-              actions: [
-                ElevatedButton(
-                  onPressed: () => _saveSelection(2, "Aceptado"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFBF4141),
-                  ),
-                  child: const Text(
-                    "Aceptar",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-            SlidePage(
-              title: "📈",
-              description:
-                  "Haz cada actividad durante 7 días para mejores resultados",
-              showSwipeHint: false,
-              actions: [
-                ElevatedButton(
-                  onPressed: () {
-                    _saveSelection(2, "Listo");
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const VariablesScreen(),
+            // 🔹 PageView ocupa toda la pantalla
+            PageView(
+              controller: _controller,
+              onPageChanged: _onPageChanged,
+              children: [
+                SlidePage(
+                  title: "Bienvenido",
+                  description:
+                      "Elige la primera variable con la que quieres empezar y tu primera actividad",
+                  showSwipeHint: true,
+                  actions: [
+                    ElevatedButton(
+                      onPressed: () => _saveSelection(0, "Concentración"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFBF4141),
                       ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFBF4141),
-                    foregroundColor: Colors.white,
-                  ),
-                  child: const Text("Empezar"),
+                      child: const Text(
+                        "Concentración",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () => _saveSelection(1, "Motivación"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFBF4141),
+                      ),
+                      child: const Text(
+                        "Motivación",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+                SlidePage(
+                  title: "🔓",
+                  description:
+                      "🔓\nFinaliza tu actividad para desbloquear nuevas actividades",
+                  showSwipeHint: true,
+                  actions: [
+                    ElevatedButton(
+                      onPressed: () => _saveSelection(2, "Aceptado"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFBF4141),
+                      ),
+                      child: const Text(
+                        "Aceptar",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+                SlidePage(
+                  title: "📈",
+                  description:
+                      "Haz cada actividad durante 7 días para mejores resultados",
+                  showSwipeHint: false,
+                  actions: [
+                    ElevatedButton(
+                      onPressed: () {
+                        _saveSelection(2, "Listo");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const VariablesScreen(),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFBF4141),
+                        foregroundColor: Colors.white,
+                      ),
+                      child: const Text("Empezar"),
+                    ),
+                  ],
                 ),
               ],
+            ),
+
+            // 🔹 Indicador flotando al fondo
+            Positioned(
+              bottom: 150,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: SmoothPageIndicator(
+                  controller: _controller,
+                  count: 3,
+                  effect: const ExpandingDotsEffect(
+                    activeDotColor: Color(0xFFBF4141),
+                    dotHeight: 10,
+                    dotWidth: 10,
+                  ),
+                  onDotClicked: (index) => _controller.animateToPage(
+                    index,
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.easeInOut,
+                  ),
+                ),
+              ),
             ),
           ],
         ),

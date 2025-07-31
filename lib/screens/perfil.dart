@@ -3,7 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neru/screens/home_screen.dart';
 import 'package:neru/screens/inicio/variables.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:neru/screens/login/login_screen.dart';
 import 'package:neru/services/db_helper.dart';
+import 'package:neru/widgets/boton.dart';
 import 'package:neru/widgets/bottom_nav.dart';
 import 'package:neru/widgets/divisor.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -201,6 +203,52 @@ class _PerfilScreenState extends State<PerfilScreen> {
                   ),
                 ),
                 const SizedBox(height: 32),
+                CustomActionButton(
+                  label: 'Cerrar Sesión',
+                  icon: Icons.close,
+                  color: const Color.fromARGB(255, 172, 38, 38),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text("Cerrar sesión"),
+                          content: const Text("¿Desea cerrar sesión?"),
+                          actions: [
+                            TextButton(
+                              child: const Text("Cancelar"),
+                              onPressed: () {
+                                Navigator.of(
+                                  context,
+                                ).pop(); // Cierra el diálogo
+                              },
+                            ),
+                            TextButton(
+                              child: const Text("Sí, salir"),
+                              onPressed: () async {
+                                // 🔹 Aquí borras tus tablas locales
+                                await DBHelper.borrarTablasLocales(); // tu función de borrado SQL
+                                // 🔹 Cierra el diálogo
+                                // ignore: use_build_context_synchronously
+                                Navigator.of(context).pop();
+
+                                // 🔹 Navega al login (y elimina el stack de pantallas previas)
+                                Navigator.pushReplacement(
+                                  // ignore: use_build_context_synchronously
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const LoginScreen(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+
                 const SizedBox(height: 32),
               ],
             ),

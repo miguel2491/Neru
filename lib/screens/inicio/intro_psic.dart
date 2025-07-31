@@ -1,8 +1,8 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:neru/screens/entrenamiento.dart';
 import 'package:neru/screens/home_screen.dart';
 import 'package:neru/screens/perfil.dart';
-import 'package:neru/screens/progreso.dart';
 import 'package:neru/widgets/audio.dart';
 import 'package:neru/widgets/bottom_nav.dart';
 
@@ -14,6 +14,7 @@ class IntroScreen extends StatefulWidget {
 
 class _IntroScreenState extends State<IntroScreen> {
   final int _selectedIndex = 0;
+  final player = AudioPlayer();
 
   void _onItemTapped(int index) {
     if (index == 0) {
@@ -35,6 +36,13 @@ class _IntroScreenState extends State<IntroScreen> {
       );
       return;
     }
+  }
+
+  @override
+  void dispose() {
+    player.stop(); // ✅ Se detiene cuando sales de la pantalla
+    player.dispose();
+    super.dispose();
   }
 
   @override

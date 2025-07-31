@@ -151,17 +151,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     label: 'User Name',
                     controller: emailController,
                   ),
-                  const SizedBox(height: 32),
-                  Dropdown(
-                    label: 'Tipo',
-                    selectedValue: _sTipo,
-                    items: _tipo,
-                    onChanged: (newValue) {
-                      setState(() {
-                        _sTipo = newValue;
-                      });
-                    },
-                  ),
+                  // const SizedBox(height: 32),
+                  // Dropdown(
+                  //   label: 'Tipo',
+                  //   selectedValue: _sTipo,
+                  //   items: _tipo,
+                  //   onChanged: (newValue) {
+                  //     setState(() {
+                  //       _sTipo = newValue;
+                  //     });
+                  //   },
+                  // ),
                   const SizedBox(height: 32),
                   _buildTextField(
                     label: 'Password',
