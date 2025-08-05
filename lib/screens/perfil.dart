@@ -1,98 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:neru/screens/home_screen.dart';
-import 'package:neru/screens/inicio/variables.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/rendering.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neru/screens/login/login_screen.dart';
 import 'package:neru/services/db_helper.dart';
 import 'package:neru/widgets/boton.dart';
-import 'package:neru/widgets/bottom_nav.dart';
 import 'package:neru/widgets/divisor.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+
+// 🔹 Asegúrate de tener tus clases DBHelper, LoginScreen, CustomActionButton, CenteredDivider ya creadas
 
 class PerfilScreen extends StatefulWidget {
   const PerfilScreen({super.key});
 
   @override
-  _PerfilScreenState createState() => _PerfilScreenState();
+  State<PerfilScreen> createState() => _PerfilScreenState();
 }
 
 class _PerfilScreenState extends State<PerfilScreen> {
-  final int _selectedIndex = 0;
-  String? nombre;
-  double progreso = 0.0;
-
-  void _onItemTapped(int index) {
-    if (index == 0) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const VariablesScreen()),
-      );
-      return; // no cambies _selectedIndex si navegas
-    } else if (index == 1) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
-      return;
-    } else if (index == 2) {
-      return;
-    }
-  }
-
-  Future<void> _checkStatus() async {
-    final prefs = await SharedPreferences.getInstance();
-    final user = prefs.getString('auth_nombre');
-    setState(() {
-      nombre = user;
-    });
-  }
-
-  Future<void> _checkLoginStatus() async {
-    final prefs = await SharedPreferences.getInstance();
-    final user = prefs.getString('auth_nombre');
-    final usuarioAct = await DBHelper.getUserActDB(user!);
-    final activTotal = await DBHelper.getActividadesDB();
-
-    if (usuarioAct.isEmpty) {
-      print('❌ No hay Actividades guardadas');
-    } else {
-      print('📊 Total de registros: ${usuarioAct.length}');
-      print('🚕 Total de registros: ${activTotal.length}');
-      final promedio = usuarioAct.length / activTotal.length;
-      final promedioR = promedio.toStringAsFixed(2);
-      print('📈 Promedio: $promedioR');
-      print('🎈 Progreso: ${(promedio * 100).toStringAsFixed(2)}%');
-      progreso = promedio;
-      setState(() {
-        progreso = promedio;
-      });
-      for (var user in usuarioAct) {
-        print(
-          '📦 Variable: ${user['id']} | ${user['idusuario']} | ${user['idactividad']} | ${user['estatus']} | ${user['fca_creacion']}',
-        );
-      }
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _checkStatus();
-    //_checkLoginStatus();
-  }
+  String nombre = "Usuario"; // 🔹 Aquí pones el nombre dinámico
+  double progreso = 0.65; // 🔹 Entre 0.0 y 1.0
+  final List<String> etiquetas = ["Éstres", "AutoConfianza", "Concentración"];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Perfil 🧘"),
-        centerTitle: true,
-        backgroundColor: Color(0xFFBF4141),
-        foregroundColor: Colors.white,
-        titleTextStyle: TextStyle(fontSize: 16),
-      ),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -114,79 +46,87 @@ class _PerfilScreenState extends State<PerfilScreen> {
                 const SizedBox(height: 32),
                 Text(
                   'HOLA $nombre',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 const SizedBox(height: 32),
-                Text(
+                const Text(
                   "TE UNISTE EN 2025",
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 const SizedBox(height: 32),
-                CenteredDivider(title: 'ESTADÍSTICAS'),
+                const CenteredDivider(title: 'ESTADÍSTICAS'),
                 const SizedBox(height: 32),
+
+                // 🔹 Tarjeta 1
                 ListTile(
-                  leading: FaIcon(
+                  leading: const FaIcon(
                     FontAwesomeIcons.hourglass,
                     color: Colors.white,
                     size: 32,
                   ),
                   title: Text(
                     'Minutos: $nombre',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  subtitle: Text(
+                  subtitle: const Text(
                     'Tiempo promedio de ejercicios',
                     style: TextStyle(fontSize: 14, color: Colors.red),
                   ),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                 ),
                 const SizedBox(height: 24),
+
+                // 🔹 Tarjeta 2
                 ListTile(
-                  leading: FaIcon(
+                  leading: const FaIcon(
                     FontAwesomeIcons.chartPie,
                     color: Colors.white,
                     size: 32,
                   ),
                   title: Text(
                     'Minutos: $nombre',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  subtitle: Text(
+                  subtitle: const Text(
                     'Tiempo total de ejercicios',
                     style: TextStyle(fontSize: 14, color: Colors.red),
                   ),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                 ),
                 const SizedBox(height: 24),
+
+                // 🔹 Tarjeta 3
                 ListTile(
-                  leading: FaIcon(
+                  leading: const FaIcon(
                     FontAwesomeIcons.play,
                     color: Colors.white,
                     size: 32,
                   ),
                   title: Text(
                     'Sesiones: $nombre',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  subtitle: Text(
+                  subtitle: const Text(
                     'Sesiones Terminadas',
                     style: TextStyle(fontSize: 14, color: Colors.red),
                   ),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                 ),
                 const SizedBox(height: 24),
+
+                // 🔹 Indicador circular
                 Center(
                   child: CircularPercentIndicator(
                     radius: 100.0,
@@ -203,9 +143,87 @@ class _PerfilScreenState extends State<PerfilScreen> {
                   ),
                 ),
                 const SizedBox(height: 32),
+                // 🔹 Gráfica con tamaño fijo para evitar overflow
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: SizedBox(
+                    height: 320,
+                    width: etiquetas.length * 180,
+                    child: Container(
+                      padding: const EdgeInsets.all(18),
+                      decoration: BoxDecoration(
+                        color: Colors.white, // Fondo blanco
+                        borderRadius: BorderRadius.circular(
+                          12,
+                        ), // Bordes redondeados opcional
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 6,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: BarChart(
+                        BarChartData(
+                          gridData: FlGridData(show: true),
+                          titlesData: FlTitlesData(
+                            topTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            rightTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            bottomTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                getTitlesWidget: (value, meta) {
+                                  // 🔹 Lista de nombres según el índice
+                                  if (value.toInt() >= 0 &&
+                                      value.toInt() < etiquetas.length) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text(
+                                        etiquetas[value.toInt()],
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  return const SizedBox();
+                                },
+                              ),
+                            ),
+                          ),
+                          borderData: FlBorderData(show: true),
+                          barGroups: List.generate(
+                            etiquetas.length,
+                            (index) => BarChartGroupData(
+                              x: index,
+                              barRods: [
+                                BarChartRodData(
+                                  toY:
+                                      (index + 1) *
+                                      1.5, // 🔹 Ejemplo de valor dinámico
+                                  color: Colors.blue,
+                                  width: 16,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ), // 🔹 Botón de cerrar sesión
+                const SizedBox(height: 32),
                 CustomActionButton(
                   label: 'Cerrar Sesión',
-                  icon: Icons.close,
+                  icon: FaIcon(FontAwesomeIcons.close),
                   color: const Color.fromARGB(255, 172, 38, 38),
                   onPressed: () {
                     showDialog(
@@ -217,29 +235,21 @@ class _PerfilScreenState extends State<PerfilScreen> {
                           actions: [
                             TextButton(
                               child: const Text("Cancelar"),
-                              onPressed: () {
-                                Navigator.of(
-                                  context,
-                                ).pop(); // Cierra el diálogo
-                              },
+                              onPressed: () => Navigator.of(context).pop(),
                             ),
                             TextButton(
                               child: const Text("Sí, salir"),
                               onPressed: () async {
-                                // 🔹 Aquí borras tus tablas locales
-                                await DBHelper.borrarTablasLocales(); // tu función de borrado SQL
-                                // 🔹 Cierra el diálogo
-                                // ignore: use_build_context_synchronously
-                                Navigator.of(context).pop();
-
-                                // 🔹 Navega al login (y elimina el stack de pantallas previas)
-                                Navigator.pushReplacement(
-                                  // ignore: use_build_context_synchronously
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const LoginScreen(),
-                                  ),
-                                );
+                                await DBHelper.borrarTablasLocales();
+                                if (mounted) {
+                                  Navigator.of(context).pop();
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const LoginScreen(),
+                                    ),
+                                  );
+                                }
                               },
                             ),
                           ],
@@ -248,16 +258,10 @@ class _PerfilScreenState extends State<PerfilScreen> {
                     );
                   },
                 ),
-
-                const SizedBox(height: 32),
               ],
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: CustomBottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
       ),
     );
   }

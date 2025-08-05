@@ -95,6 +95,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF00406a),
+        foregroundColor: Colors.white,
+        title: Row(
+          mainAxisAlignment:
+              MainAxisAlignment.end, // Alinea el título a la derecha
+          children: [Text('NERU')],
+        ),
+      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -112,7 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Image.asset('assets/logo.png', height: 100),
                   const SizedBox(height: 30),
                   const Text(
-                    'Registrate',
+                    'Regístrate',
                     style: TextStyle(color: Colors.white, fontSize: 22),
                   ),
                   // const SizedBox(height: 20),
@@ -131,18 +140,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   //   controller: appController,
                   // ),
                   const SizedBox(height: 20),
+                  _buildEmail(label: 'Nombre', controller: nombreController),
+                  const SizedBox(height: 20),
                   _buildEmail(
                     label: 'Correo Electronico',
                     controller: emailController,
                   ),
                   const SizedBox(height: 20),
                   _buildPasswordField(
-                    label: 'Password',
+                    label: 'Contraseña',
                     controller: passwordController,
                   ),
                   const SizedBox(height: 20),
                   _buildPasswordField(
-                    label: 'Validar Password',
+                    label: 'Confirmar Contraseña',
                     controller: password2Controller,
                     isConfirm: true, // ✅ activa la validación de igualdad
                   ),
@@ -153,6 +164,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,
                         vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10), // Sin redondeo
                       ),
                     ),
                     onPressed: loading
@@ -165,7 +179,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: loading
                         ? const CircularProgressIndicator(color: Colors.white)
                         : const Text(
-                            'GUARDAR',
+                            'Crear Cuenta',
                             style: TextStyle(color: Colors.white),
                           ),
                   ),

@@ -49,10 +49,13 @@ class _IntroScreenState extends State<IntroScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('NERU'),
-        centerTitle: true,
-        backgroundColor: Color(0xFFBF4141),
+        backgroundColor: Color(0xFF00406a),
         foregroundColor: Colors.white,
+        title: Row(
+          mainAxisAlignment:
+              MainAxisAlignment.end, // Alinea el título a la derecha
+          children: [Text('NERU')],
+        ),
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -65,16 +68,8 @@ class _IntroScreenState extends State<IntroScreen> {
         ),
         child: Column(
           children: [
-            const SizedBox(height: 84),
-            AudioPlayButton(
-              color: const Color(0xFFBF4141),
-              url:
-                  'https://gcconsultoresmexico.com/audios/psicologia_deporte.mp3',
-              label: '¿Que es psicología del deporte?',
-            ),
-            const SizedBox(height: 32),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 55.0, vertical: 10.0),
+              padding: EdgeInsets.symmetric(horizontal: 55.0, vertical: 20.0),
               child: Text(
                 '¿Estas listo para aumentar tu rendimiento DEPORTIVO?',
                 style: TextStyle(
@@ -85,7 +80,15 @@ class _IntroScreenState extends State<IntroScreen> {
                 ),
               ),
             ),
+            const SizedBox(height: 84),
+            AudioPlayButton(
+              color: const Color(0xFFBF4141),
+              url:
+                  'https://gcconsultoresmexico.com/audios/psicologia_deporte.mp3',
+              label: '¿Que es psicología del deporte?',
+            ),
             const SizedBox(height: 32),
+
             AudioPlayButton(
               color: const Color(0xFFBF4141),
               url:

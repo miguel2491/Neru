@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neru/screens/home_screen.dart';
 import 'package:neru/screens/perfil.dart';
 import 'package:neru/screens/variables/estres.dart';
@@ -45,10 +46,13 @@ class _VariablesScreenState extends State<VariablesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Variables'),
-        centerTitle: true,
-        backgroundColor: Color(0xFFBF4141),
+        backgroundColor: Color(0xFF00406a),
         foregroundColor: Colors.white,
+        title: Row(
+          mainAxisAlignment:
+              MainAxisAlignment.end, // Alinea el título a la derecha
+          children: [Text('NERU')],
+        ),
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -126,7 +130,7 @@ class _VariablesScreenState extends State<VariablesScreen> {
           width: double.infinity,
           child: CustomActionButton(
             label: label,
-            icon: Icons.show_chart,
+            icon: FaIcon(FontAwesomeIcons.brain, color: Colors.white),
             color: const Color(0xFFBF4141),
             onPressed: () {
               Navigator.push(

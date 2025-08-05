@@ -124,6 +124,16 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Color(0xFF00406a),
+        foregroundColor: Colors.white,
+        title: Row(
+          mainAxisAlignment:
+              MainAxisAlignment.end, // Alinea el título a la derecha
+          children: [Text('NERU')],
+        ),
+      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -136,11 +146,11 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset('assets/logo.png', height: 100),
+                  Image.asset('assets/logo.png', height: 120),
                   const SizedBox(height: 20),
                   const Text(
                     'Bienvenido',
@@ -148,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   _buildTextField(
-                    label: 'User Name',
+                    label: 'Correo electrónico',
                     controller: emailController,
                   ),
                   // const SizedBox(height: 32),
@@ -164,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // ),
                   const SizedBox(height: 32),
                   _buildTextField(
-                    label: 'Password',
+                    label: 'Contraseña',
                     controller: passwordController,
                     obscure: true,
                   ),
@@ -175,6 +185,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,
                         vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10), // Sin redondeo
                       ),
                     ),
                     onPressed: loading ? null : _login,
@@ -192,6 +205,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,
                         vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10), // Sin redondeo
                       ),
                     ),
                     onPressed: loading ? null : _register,
