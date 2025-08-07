@@ -113,77 +113,66 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         child: Center(
           child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset('assets/logo.png', height: 100),
-                  const SizedBox(height: 30),
-                  const Text(
-                    'Regístrate',
-                    style: TextStyle(color: Colors.white, fontSize: 22),
-                  ),
-                  // const SizedBox(height: 20),
-                  // _buildTextField(
-                  //   label: 'Nombre de Usuario',
-                  //   controller: userController,
-                  // ),
-                  // const SizedBox(height: 20),
-                  // _buildTextField(
-                  //   label: 'Nombre',
-                  //   controller: nombreController,
-                  // ),
-                  // const SizedBox(height: 20),
-                  // _buildTextField(
-                  //   label: 'Apellidos',
-                  //   controller: appController,
-                  // ),
-                  const SizedBox(height: 20),
-                  _buildEmail(label: 'Nombre', controller: nombreController),
-                  const SizedBox(height: 20),
-                  _buildEmail(
-                    label: 'Correo Electronico',
-                    controller: emailController,
-                  ),
-                  const SizedBox(height: 20),
-                  _buildPasswordField(
-                    label: 'Contraseña',
-                    controller: passwordController,
-                  ),
-                  const SizedBox(height: 20),
-                  _buildPasswordField(
-                    label: 'Confirmar Contraseña',
-                    controller: password2Controller,
-                    isConfirm: true, // ✅ activa la validación de igualdad
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFF23535),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 12,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10), // Sin redondeo
-                      ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(height: 0), // 🔼 Subimos todo el contenido
+                    Image.asset('assets/logo.png', height: 200),
+                    const SizedBox(height: 2),
+                    const Text(
+                      'Regístrate',
+                      style: TextStyle(color: Colors.white, fontSize: 24),
                     ),
-                    onPressed: loading
-                        ? null
-                        : () {
-                            if (_formKey.currentState!.validate()) {
-                              _register(); // ✅ solo se ejecuta si todo es válido
-                            }
-                          },
-                    child: loading
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text(
-                            'Crear Cuenta',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                  ),
-                ],
+                    const SizedBox(height: 10),
+                    _buildEmail(label: 'Nombre', controller: nombreController),
+                    const SizedBox(height: 20),
+                    _buildEmail(
+                      label: 'Correo Electrónico',
+                      controller: emailController,
+                    ),
+                    const SizedBox(height: 20),
+                    _buildPasswordField(
+                      label: 'Contraseña',
+                      controller: passwordController,
+                    ),
+                    const SizedBox(height: 20),
+                    _buildPasswordField(
+                      label: 'Confirmar Contraseña',
+                      controller: password2Controller,
+                      isConfirm: true,
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFff4000),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onPressed: loading
+                          ? null
+                          : () {
+                              if (_formKey.currentState!.validate()) {
+                                _register();
+                              }
+                            },
+                      child: loading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text(
+                              'Crear Cuenta',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

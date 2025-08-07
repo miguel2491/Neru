@@ -49,14 +49,31 @@ class _IntroScreenState extends State<IntroScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF00406a),
+        backgroundColor: const Color(0xFF00406a),
         foregroundColor: Colors.white,
-        title: Row(
-          mainAxisAlignment:
-              MainAxisAlignment.end, // Alinea el título a la derecha
-          children: [Text('NERU')],
+        title: Stack(
+          children: [
+            // 🔹 Ícono centrado
+            Align(
+              alignment: Alignment.center,
+              child: Image.asset(
+                'assets/iconos/i_psico.png',
+                height: 24,
+                width: 24,
+              ),
+            ),
+            // 🔹 Texto alineado a la derecha
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'NERU',
+                style: const TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+          ],
         ),
       ),
+
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -69,7 +86,7 @@ class _IntroScreenState extends State<IntroScreen> {
         child: Column(
           children: [
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 55.0, vertical: 20.0),
+              padding: EdgeInsets.symmetric(horizontal: 60.0, vertical: 50.0),
               child: Text(
                 '¿Estas listo para aumentar tu rendimiento DEPORTIVO?',
                 style: TextStyle(
@@ -81,19 +98,26 @@ class _IntroScreenState extends State<IntroScreen> {
               ),
             ),
             const SizedBox(height: 84),
-            AudioPlayButton(
-              color: const Color(0xFFBF4141),
-              url:
-                  'https://gcconsultoresmexico.com/audios/psicologia_deporte.mp3',
-              label: '¿Que es psicología del deporte?',
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 32.0,
+              ), // 🔹 Margen horizontal
+              child: AudioPlayButton(
+                color: const Color(0xFFBF4141),
+                url:
+                    'https://gcconsultoresmexico.com/audios/psicologia_deporte.mp3',
+                label: '¿Qué es psicología del deporte?',
+              ),
             ),
             const SizedBox(height: 32),
-
-            AudioPlayButton(
-              color: const Color(0xFFBF4141),
-              url:
-                  'https://gcconsultoresmexico.com/audios/psicologo_deportivo.mp3',
-              label: '¿Por que ir con un psicologo deportivo?',
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+              child: AudioPlayButton(
+                color: const Color(0xFFBF4141),
+                url:
+                    'https://gcconsultoresmexico.com/audios/psicologo_deportivo.mp3',
+                label: '¿Por que ir con un psicologo deportivo?',
+              ),
             ),
           ],
         ),

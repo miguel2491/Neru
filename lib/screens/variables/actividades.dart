@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neru/screens/calendario.dart';
 import 'package:neru/screens/entrenamiento.dart';
 import 'package:neru/screens/home_screen.dart';
@@ -124,10 +125,29 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
     final String? variable_ = imageMap[widget.variable];
     return Scaffold(
       appBar: AppBar(
-        title: Text('Neru Actividad'),
-        centerTitle: true,
-        backgroundColor: Color(0xFFBF4141),
+        backgroundColor: Color(0xFF00406a),
         foregroundColor: Colors.white,
+        title: Stack(
+          children: [
+            // 🔹 Ícono centrado
+            Align(
+              alignment: Alignment.center,
+              child: FaIcon(
+                FontAwesomeIcons.brain,
+                color: Colors.white,
+                size: 20,
+              ),
+            ),
+            // 🔹 Texto alineado a la derecha
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'NERU',
+                style: const TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+          ],
+        ),
       ),
       body: Container(
         width: double.infinity,
@@ -150,7 +170,7 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(
-                          0xFFBF4141,
+                          0xFFff4000,
                         ), // 🎨 color del botón
                         padding: const EdgeInsets.all(16),
                         shape: RoundedRectangleBorder(

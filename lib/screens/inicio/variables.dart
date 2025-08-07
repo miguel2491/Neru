@@ -48,10 +48,26 @@ class _VariablesScreenState extends State<VariablesScreen> {
       appBar: AppBar(
         backgroundColor: Color(0xFF00406a),
         foregroundColor: Colors.white,
-        title: Row(
-          mainAxisAlignment:
-              MainAxisAlignment.end, // Alinea el título a la derecha
-          children: [Text('NERU')],
+        title: Stack(
+          children: [
+            // 🔹 Ícono centrado
+            Align(
+              alignment: Alignment.center,
+              child: FaIcon(
+                FontAwesomeIcons.brain,
+                color: Colors.white,
+                size: 20,
+              ),
+            ),
+            // 🔹 Texto alineado a la derecha
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'NERU',
+                style: const TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+          ],
         ),
       ),
       body: Container(
@@ -74,10 +90,10 @@ class _VariablesScreenState extends State<VariablesScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: AudioPlayButton(
-                          color: const Color(0xFFBF4141),
+                          color: const Color(0xFFff4000),
                           url:
                               'https://gcconsultoresmexico.com/audios/psicologia_deporte.mp3',
-                          label: 'Escuchar explicación',
+                          label: 'Mi PEM',
                         ),
                       ),
                       const SizedBox(height: 32),
@@ -120,17 +136,23 @@ class _VariablesScreenState extends State<VariablesScreen> {
 
   Future<List<Widget>> _buildButtons(BuildContext context) async {
     final variables = await DBHelper.getVariablesDB();
-
     return variables.map<Widget>((v) {
       final idVar = v['id'];
       final label = v['nombre'];
+      final icono = v['icono'];
       return Padding(
         padding: const EdgeInsets.only(bottom: 32),
         child: SizedBox(
           width: double.infinity,
           child: CustomActionButton(
             label: label,
-            icon: FaIcon(FontAwesomeIcons.brain, color: Colors.white),
+            icon: Image.asset(
+              icono,
+              width: 24,
+              height: 24,
+              color: Colors
+                  .white, // opcional, si la imagen es un ícono PNG blanco y negro
+            ),
             color: const Color(0xFFBF4141),
             onPressed: () {
               Navigator.push(

@@ -32,11 +32,14 @@ class SlidePage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 250),
-                  Text(
-                    description,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 28, color: Colors.white70),
+                  const SizedBox(height: 100),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                    child: Text(
+                      description,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 28, color: Colors.white),
+                    ),
                   ),
                   const SizedBox(height: 16),
                   // Mostrar botones si existen

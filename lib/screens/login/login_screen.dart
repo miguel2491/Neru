@@ -181,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFF23535),
+                      backgroundColor: Color(0xFFff4000),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,
                         vertical: 12,
@@ -201,7 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFF23535),
+                      backgroundColor: Color(0xFFff4000),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,
                         vertical: 12,

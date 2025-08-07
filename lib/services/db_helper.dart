@@ -18,6 +18,7 @@ class DBHelper {
       CREATE TABLE variables (
         id INTEGER PRIMARY KEY,
         nombre TEXT,
+        icono TEXT,
         estatus TEXT
       )
     ''');
@@ -54,6 +55,7 @@ class DBHelper {
       await db.insert('variables', {
         'id': user['id'],
         'nombre': user['nombre'],
+        'icono': user['icono'],
         'estatus': user['estatus'],
       }, conflictAlgorithm: ConflictAlgorithm.replace);
     }
@@ -150,6 +152,7 @@ class DBHelper {
     CREATE TABLE variables (
       id INTEGER PRIMARY KEY,
       nombre TEXT,
+      icono TEXT,
       estatus TEXT
     )
   ''');

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neru/screens/calendario.dart';
 import 'package:neru/screens/entrenamiento.dart';
 import 'package:neru/screens/perfil.dart';
@@ -120,10 +121,29 @@ class _EjercicioScreenState extends State<EjercicioScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Neru Ejercicio'),
-        centerTitle: true,
-        backgroundColor: Color(0xFFBF4141),
+        backgroundColor: Color(0xFF00406a),
         foregroundColor: Colors.white,
+        title: Stack(
+          children: [
+            // 🔹 Ícono centrado
+            Align(
+              alignment: Alignment.center,
+              child: FaIcon(
+                FontAwesomeIcons.brain,
+                color: Colors.white,
+                size: 20,
+              ),
+            ),
+            // 🔹 Texto alineado a la derecha
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'NERU',
+                style: const TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+          ],
+        ),
       ),
       body: Container(
         width: double.infinity,
@@ -142,7 +162,7 @@ class _EjercicioScreenState extends State<EjercicioScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 AudioPlayButton(
-                  color: const Color(0xFFBF4141),
+                  color: const Color(0xFFff4000),
                   url: 'https://gcconsultoresmexico.com/audios/${widget.ruta}',
                   label: 'Escuchar explicación',
                 ),

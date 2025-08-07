@@ -7,11 +7,7 @@ import 'package:neru/main.dart';
 import 'package:neru/screens/inicio/intro_psic.dart';
 import 'package:neru/screens/inicio/intro_slider.dart';
 import 'package:neru/screens/inicio/variables.dart';
-import 'package:neru/screens/login/login_screen.dart';
 import 'package:neru/screens/perfil.dart';
-import 'package:neru/screens/progreso.dart';
-import 'package:neru/services/db_helper.dart';
-import 'package:neru/services/notificaciones.dart';
 import 'package:neru/widgets/bottom_nav.dart';
 //import '../widgets/app_drawer.dart';
 import 'package:neru/widgets/boton.dart';
@@ -23,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final int _selectedIndex = 0;
+  final int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
     if (index == 0) {
@@ -51,17 +47,17 @@ class _HomeScreenState extends State<HomeScreen> {
     Center(
       child: Text("", style: TextStyle(color: Colors.white)),
     ),
+    // Center(
+    //   child: Text("Progreso", style: TextStyle(color: Colors.white)),
+    // ),
     Center(
-      child: Text("Progreso", style: TextStyle(color: Colors.white)),
+      child: Text("", style: TextStyle(color: Colors.white)),
     ),
     Center(
-      child: Text("Home", style: TextStyle(color: Colors.white)),
+      child: Text("", style: TextStyle(color: Colors.white)),
     ),
     Center(
-      child: Text("Calendario", style: TextStyle(color: Colors.white)),
-    ),
-    Center(
-      child: Text("Perfil", style: TextStyle(color: Colors.white)),
+      child: Text("", style: TextStyle(color: Colors.white)),
     ),
   ];
   Future<void> solicitarPermisoExactAlarms() async {
@@ -136,12 +132,14 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 32),
             CustomActionButton(
               label: '¿Que es la psicología del deporte?',
-              icon: FaIcon(
-                FontAwesomeIcons.headset,
-                color: Colors.white,
-                size: 20,
+              icon: Image.asset(
+                'assets/iconos/i_psico.png',
+                width: 24,
+                height: 24,
+                color: Colors
+                    .white, // opcional, si la imagen es un ícono PNG blanco y negro
               ),
-              color: const Color(0xFFBF4141),
+              color: const Color(0xFFff4000),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -157,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.white,
                 size: 20,
               ),
-              color: const Color(0xFFBF4141),
+              color: const Color(0xFFff4000),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -173,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.white,
                 size: 20,
               ),
-              color: const Color(0xFFBF4141),
+              color: const Color(0xFFff4000),
               onPressed: () {
                 Navigator.pushNamed(context, '/progreso');
               },
@@ -181,10 +179,12 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 32),
             CustomActionButton(
               label: 'Chat IA (Próximamente)',
-              icon: FaIcon(
-                FontAwesomeIcons.comment,
-                color: Colors.white,
-                size: 20,
+              icon: Image.asset(
+                'assets/iconos/i_chat.png',
+                width: 24,
+                height: 24,
+                color: Colors
+                    .white, // opcional, si la imagen es un ícono PNG blanco y negro
               ),
               color: const Color(0xFF616161),
               onPressed: () async {

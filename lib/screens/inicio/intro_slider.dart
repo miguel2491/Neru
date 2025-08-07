@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:neru/screens/entrenamiento.dart';
+import 'package:neru/screens/home_screen.dart';
 import 'package:neru/screens/inicio/slide_page.dart';
 import 'package:neru/screens/inicio/variables.dart';
+import 'package:neru/screens/perfil.dart';
+import 'package:neru/widgets/bottom_nav.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -15,6 +20,29 @@ class _IntroSliderState extends State<IntroSlider> {
   final PageController _controller = PageController();
   int _currentPage = 0;
   final List<String?> _selections = [null, null, null];
+  final int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    if (index == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const EntrenamientoScreen()),
+      );
+      return; // no cambies _selectedIndex si navegas
+    } else if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+      return;
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const PerfilScreen()),
+      );
+      return;
+    }
+  }
 
   @override
   void initState() {
@@ -67,6 +95,31 @@ class _IntroSliderState extends State<IntroSlider> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF00406a),
+        foregroundColor: Colors.white,
+        title: Stack(
+          children: [
+            // 🔹 Ícono centrado
+            Align(
+              alignment: Alignment.center,
+              child: FaIcon(
+                FontAwesomeIcons.brain,
+                color: Colors.white,
+                size: 20,
+              ),
+            ),
+            // 🔹 Texto alineado a la derecha
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'NERU',
+                style: const TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+          ],
+        ),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -84,27 +137,37 @@ class _IntroSliderState extends State<IntroSlider> {
                 SlidePage(
                   title: "Bienvenido",
                   description:
-                      "Elige la primera variable con la que quieres empezar y tu primera actividad",
+                      "Elige la primera variable con la que quieres empezar",
                   showSwipeHint: true,
                   actions: [
                     ElevatedButton(
                       onPressed: () => _saveSelection(0, "Concentración"),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFBF4141),
+                        backgroundColor: const Color(0xFFBF4141),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
                       ),
-                      child: const Text(
-                        "Concentración",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () => _saveSelection(1, "Motivación"),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFBF4141),
-                      ),
-                      child: const Text(
-                        "Motivación",
-                        style: TextStyle(color: Colors.white),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset(
+                            'assets/iconos/i_con.png', // 👈 Ruta a tu imagen local
+                            height: 30,
+                            width: 30,
+                            color: Colors
+                                .white, // opcional, útil si es un ícono blanco y negro
+                          ),
+                          const SizedBox(width: 8),
+                          const Text(
+                            "Concentración",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -116,13 +179,82 @@ class _IntroSliderState extends State<IntroSlider> {
                   showSwipeHint: true,
                   actions: [
                     ElevatedButton(
-                      onPressed: () => _saveSelection(2, "Aceptado"),
+                      onPressed: () => _saveSelection(1, "RELAJACIÓN 1"),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFBF4141),
+                        backgroundColor: const Color(0xFFBF4141),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
                       ),
-                      child: const Text(
-                        "Aceptar",
-                        style: TextStyle(color: Colors.white),
+                      child: Row(
+                        mainAxisSize:
+                            MainAxisSize.min, // Ajusta el tamaño al contenido
+                        children: const [
+                          // Ícono a la izquierda
+                          SizedBox(width: 8), // Espacio entre ícono y texto
+                          Text(
+                            "RELAJACIÓN 1",
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    ElevatedButton(
+                      onPressed: () => _saveSelection(1, "RELAJACIÓN 1"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF616161),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize:
+                            MainAxisSize.min, // Ajusta el tamaño al contenido
+                        children: const [
+                          // Ícono a la izquierda
+                          SizedBox(width: 8), // Espacio entre ícono y texto
+                          Text(
+                            "RELAJACIÓN 2",
+                            style: TextStyle(color: Colors.white, fontSize: 14),
+                          ),
+                          Icon(Icons.lock_open, color: Colors.white, size: 20),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    ElevatedButton(
+                      onPressed: () => _saveSelection(3, "RELAJACIÓN 3"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF616161),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize:
+                            MainAxisSize.min, // Ajusta el tamaño al contenido
+                        children: const [
+                          // Ícono a la izquierda
+                          SizedBox(width: 8), // Espacio entre ícono y texto
+                          Text(
+                            "RELAJACIÓN 3",
+                            style: TextStyle(color: Colors.white, fontSize: 14),
+                          ),
+                          Icon(Icons.lock_open, color: Colors.white, size: 20),
+                        ],
                       ),
                     ),
                   ],
@@ -130,12 +262,12 @@ class _IntroSliderState extends State<IntroSlider> {
                 SlidePage(
                   title: "📈",
                   description:
-                      "Haz cada actividad durante 7 días para mejores resultados",
+                      "Trabaja una variable durante mínimo 7 días para mejores resultados",
                   showSwipeHint: false,
                   actions: [
                     ElevatedButton(
                       onPressed: () {
-                        _saveSelection(2, "Listo");
+                        _saveSelection(4, "Listo");
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -146,8 +278,11 @@ class _IntroSliderState extends State<IntroSlider> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFBF4141),
                         foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                      child: const Text("Empezar"),
+                      child: const Text("EMPEZAR"),
                     ),
                   ],
                 ),
@@ -178,6 +313,10 @@ class _IntroSliderState extends State<IntroSlider> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }

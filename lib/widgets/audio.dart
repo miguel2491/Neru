@@ -64,17 +64,48 @@ class _AudioPlayButtonState extends State<AudioPlayButton> {
           icon = Icons.replay; // Si terminó, mostrar replay
         }
 
-        return ElevatedButton.icon(
-          onPressed: _togglePlayback,
-          icon: Icon(icon, size: 25),
-          label: Text(widget.label),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: widget.color,
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10), // Sin redondeo
+        return Stack(
+          alignment: Alignment.center,
+          clipBehavior: Clip.none, // Para que el ícono pueda salirse del botón
+          children: [
+            // Botón principal (pill)
+            ElevatedButton(
+              onPressed: _togglePlayback,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: widget.color,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 16,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                elevation: 4,
+              ),
+              child: Text(
+                widget.label,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1.0,
+                ),
+              ),
             ),
-          ),
+
+            // Ícono superpuesto flotante
+            Positioned(
+              top: -30,
+              child: CircleAvatar(
+                radius: 25,
+                backgroundColor: Color(0xFF616161),
+                child: IconButton(
+                  icon: Icon(icon, color: Colors.white, size: 28),
+                  onPressed: _togglePlayback,
+                ),
+              ),
+            ),
+          ],
         );
       },
     );

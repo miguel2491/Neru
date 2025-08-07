@@ -45,6 +45,7 @@ flutter:
     - assets/pdf/neru.pdf
     - assets/audio/muscular.mp3
     - assets/variables/
+    - assets/iconos/
     - .env
   fonts:
     - family: Monserrat
