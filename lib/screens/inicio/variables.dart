@@ -97,28 +97,32 @@ class _VariablesScreenState extends State<VariablesScreen> {
                         ),
                       ),
                       const SizedBox(height: 32),
-                      FutureBuilder<List<Widget>>(
-                        future: _buildButtons(context),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                        child: FutureBuilder<List<Widget>>(
+                          future: _buildButtons(context),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
 
-                          if (snapshot.hasError) {
-                            return Center(
-                              child: Text('Error: ${snapshot.error}'),
-                            );
-                          }
+                            if (snapshot.hasError) {
+                              return Center(
+                                child: Text('Error: ${snapshot.error}'),
+                              );
+                            }
 
-                          final buttons = snapshot.data ?? [];
+                            final buttons = snapshot.data ?? [];
 
-                          return Column(children: buttons);
-                        },
+                            return Column(children: buttons);
+                          },
+                        ),
                       ),
-                      const Spacer(), // empuja los elementos hacia arriba si hay espacio de sobra
+                      const Spacer(),
+                      // empuja los elementos hacia arriba si hay espacio de sobra
                     ],
                   ),
                 ),
@@ -153,7 +157,7 @@ class _VariablesScreenState extends State<VariablesScreen> {
               color: Colors
                   .white, // opcional, si la imagen es un ícono PNG blanco y negro
             ),
-            color: const Color(0xFFBF4141),
+            color: const Color(0xFFff4000),
             onPressed: () {
               Navigator.push(
                 context,

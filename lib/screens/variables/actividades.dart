@@ -158,50 +158,116 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: _actividades.isEmpty
-            ? const Center(child: CircularProgressIndicator())
-            : ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: _actividades.length,
-                itemBuilder: (context, index) {
-                  final actividad = _actividades[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(
-                          0xFFff4000,
-                        ), // 🎨 color del botón
-                        padding: const EdgeInsets.all(16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => EjercicioScreen(
-                              ruta: actividad['ruta'],
-                              id: actividad['id'],
-                              ida: actividad['idvariable'],
-                              ide: actividad['id'],
-                            ),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        actividad['nombre'] ?? 'Sin nombre',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
-                      ),
+        child: SafeArea(
+          // evita que quede debajo de status bar / notch
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 8),
+              // botón visible y centrado
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 62.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    // tu acción
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        Colors.transparent, // 🔹 Fondo transparente
+                    shadowColor: Colors.transparent, // 🔹 Sin sombra
+                    side: const BorderSide(
+                      color: Colors.white, // 🔹 Color del borde
+                      width: 2, // 🔹 Grosor del borde
                     ),
-                  );
-                },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min, // Ajusta al contenido
+                    children: [
+                      Image.asset(
+                        'assets/iconos/i_autocon.png', // Cambia por tu imagen
+                        width: 24,
+                        height: 24,
+                        color: Colors
+                            .white, // 🔹 Pinta la imagen en blanco (si es PNG transparente)
+                      ),
+                      const SizedBox(width: 8), // Espacio entre imagen y texto
+                      const Text(
+                        "Actividad",
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
               ),
+              const SizedBox(height: 12),
+
+              // LISTA: debe estar dentro de Expanded para que ocupe el espacio restante
+              Expanded(
+                child: _actividades.isEmpty
+                    ? const Center(child: CircularProgressIndicator())
+                    : ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                        itemCount: _actividades.length,
+                        itemBuilder: (context, index) {
+                          final item = _actividades[index];
+                          return InkWell(
+                            onTap:
+                                item['estatus'] !=
+                                    '0' // Solo si no está bloqueado
+                                ? () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => EjercicioScreen(
+                                          ruta: item['ruta'],
+                                          id: item['id'],
+                                          ida: item['idvariable'],
+                                          ide: item['id'],
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                : null, // No hace nada si está bloqueado
+                            child: Card(
+                              color: item['estatus'] == '0'
+                                  ? const Color(0xFF616161) // Gris si bloqueado
+                                  : const Color(
+                                      0xFFFF4000,
+                                    ), // Naranja si activo
+                              child: ListTile(
+                                title: Text(
+                                  item['nombre']?.toString() ?? 'Sin nombre',
+                                ),
+                                textColor: Colors.white,
+                                trailing: item['estatus'] == '0'
+                                    ? const FaIcon(
+                                        FontAwesomeIcons.lockOpen,
+                                        color: Colors.white,
+                                        size: 20,
+                                      )
+                                    : const FaIcon(
+                                        FontAwesomeIcons.lock,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+              ),
+            ],
+          ),
+        ),
       ),
+
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: _selectedIndexNav,
         onItemTapped: _onItemTappedNav,
