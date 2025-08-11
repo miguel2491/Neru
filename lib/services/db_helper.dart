@@ -101,6 +101,23 @@ class DBHelper {
     return await db.query('variables');
   }
 
+  static Future<Map<String, dynamic>?> getVariableById(int id) async {
+    final db = await database;
+
+    final result = await db.query(
+      'variables',
+      columns: ['nombre', 'icono'],
+      where: 'id = ?',
+      whereArgs: [id],
+      limit: 1,
+    );
+
+    if (result.isNotEmpty) {
+      return result.first; // contiene {'nombre': ..., 'icono': ...}
+    }
+    return null;
+  }
+
   static Future<List<Map<String, dynamic>>> getActividadesDB() async {
     final db = await database;
     return await db.query('actividades');

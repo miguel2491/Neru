@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:neru/screens/inicio/swipe_arrow.dart';
 
 class SlidePage extends StatelessWidget {
   final String title;

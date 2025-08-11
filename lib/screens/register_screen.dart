@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:neru/screens/login/login_screen.dart';
+import 'package:neru/widgets/icon_radio.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -23,6 +24,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final tokenController = TextEditingController();
 
   bool loading = false;
+
+  final List<IconData> icons = [Icons.home, Icons.star, Icons.favorite];
 
   Future<void> _register() async {
     final username = userController.text.trim();
@@ -146,6 +149,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       isConfirm: true,
                     ),
                     const SizedBox(height: 20),
+                    IconRadioGroup(),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFff4000),
@@ -171,6 +176,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               style: TextStyle(color: Colors.white),
                             ),
                     ),
+                    const SizedBox(height: 80),
                   ],
                 ),
               ),

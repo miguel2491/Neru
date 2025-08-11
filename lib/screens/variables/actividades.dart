@@ -7,7 +7,6 @@ import 'package:neru/screens/inicio/variables.dart';
 import 'package:neru/screens/perfil.dart';
 import 'package:neru/screens/progreso.dart';
 import 'package:neru/screens/variables/ejercicio.dart';
-import 'package:neru/services/api.dart' as api_services;
 import 'package:neru/services/db_helper.dart';
 import 'package:neru/widgets/bottom_nav.dart';
 
@@ -21,6 +20,8 @@ class ActividadesScreen extends StatefulWidget {
 class _ActividadesScreenState extends State<ActividadesScreen> {
   final int _selectedIndexNav = 0;
   final int _selectedIndex = 0;
+  String nameVar = '';
+  String iconVar = '';
 
   void _onItemTappedNav(int index) {
     if (index == 0) {
@@ -105,9 +106,25 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
     final actividades = await DBHelper.getActividadesByVariableId(
       widget.variable,
     );
-    print('👻🌋 $actividades');
+    final variableData = await DBHelper.getVariableById(widget.variable);
+    final actsUsr = await DBHelper.getUserActDB('1');
+    final userActIds = actsUsr.map((act) => act['id']).toSet();
+
+    if (variableData != null) {
+      setState(() {
+        nameVar = variableData['nombre'] ?? '';
+        iconVar = variableData['icono'] ?? '';
+      });
+    }
+
+    // Fusionamos: añadimos 'isSelected' para cada actividad
+    final mergedActividades = actividades.map((item) {
+      final isSelected = userActIds.contains(item['id']);
+      return {...item, 'isSelected': isSelected};
+    }).toList();
+
     setState(() {
-      _actividades = actividades;
+      _actividades = mergedActividades;
     });
   }
 
@@ -191,15 +208,17 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
                     mainAxisSize: MainAxisSize.min, // Ajusta al contenido
                     children: [
                       Image.asset(
-                        'assets/iconos/i_autocon.png', // Cambia por tu imagen
+                        iconVar.isNotEmpty
+                            ? iconVar
+                            : 'assets/iconos/i_autocon.png', // Cambia por tu imagen
                         width: 24,
                         height: 24,
                         color: Colors
                             .white, // 🔹 Pinta la imagen en blanco (si es PNG transparente)
                       ),
                       const SizedBox(width: 8), // Espacio entre imagen y texto
-                      const Text(
-                        "Actividad",
+                      Text(
+                        nameVar,
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ],
@@ -217,10 +236,10 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
                         itemCount: _actividades.length,
                         itemBuilder: (context, index) {
                           final item = _actividades[index];
+                          final isSelected = item['isSelected'] ?? false;
+
                           return InkWell(
-                            onTap:
-                                item['estatus'] !=
-                                    '0' // Solo si no está bloqueado
+                            onTap: item['estatus'] != '0'
                                 ? () {
                                     Navigator.push(
                                       context,
@@ -234,29 +253,45 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
                                       ),
                                     );
                                   }
-                                : null, // No hace nada si está bloqueado
+                                : null,
                             child: Card(
                               color: item['estatus'] == '0'
                                   ? const Color(0xFF616161) // Gris si bloqueado
+                                  : isSelected
+                                  ? Colors.greenAccent.withOpacity(
+                                      0.7,
+                                    ) // Color para seleccionado
                                   : const Color(
                                       0xFFFF4000,
-                                    ), // Naranja si activo
+                                    ), // Naranja si activo pero no seleccionado
                               child: ListTile(
                                 title: Text(
                                   item['nombre']?.toString() ?? 'Sin nombre',
                                 ),
                                 textColor: Colors.white,
-                                trailing: item['estatus'] == '0'
-                                    ? const FaIcon(
-                                        FontAwesomeIcons.lockOpen,
-                                        color: Colors.white,
-                                        size: 20,
-                                      )
-                                    : const FaIcon(
-                                        FontAwesomeIcons.lock,
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    if (isSelected)
+                                      const FaIcon(
+                                        FontAwesomeIcons.checkCircle,
                                         color: Colors.white,
                                         size: 20,
                                       ),
+                                    const SizedBox(width: 8),
+                                    item['estatus'] == '0'
+                                        ? const FaIcon(
+                                            FontAwesomeIcons.lockOpen,
+                                            color: Colors.white,
+                                            size: 20,
+                                          )
+                                        : const FaIcon(
+                                            FontAwesomeIcons.lock,
+                                            color: Colors.white,
+                                            size: 20,
+                                          ),
+                                  ],
+                                ),
                               ),
                             ),
                           );
