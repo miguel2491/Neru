@@ -106,8 +106,8 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
     final actividades = await DBHelper.getActividadesByVariableId(
       widget.variable,
     );
-    final variableData = await DBHelper.getVariableById(widget.variable);
     final actsUsr = await DBHelper.getUserActDB('1');
+    final variableData = await DBHelper.getVariableById(widget.variable);
     final userActIds = actsUsr.map((act) => act['id']).toSet();
 
     if (variableData != null) {
@@ -122,7 +122,7 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
       final isSelected = userActIds.contains(item['id']);
       return {...item, 'isSelected': isSelected};
     }).toList();
-
+    print('🌋 $mergedActividades');
     setState(() {
       _actividades = mergedActividades;
     });
@@ -239,7 +239,7 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
                           final isSelected = item['isSelected'] ?? false;
 
                           return InkWell(
-                            onTap: item['estatus'] != '0'
+                            onTap: !isSelected
                                 ? () {
                                     Navigator.push(
                                       context,
@@ -255,12 +255,10 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
                                   }
                                 : null,
                             child: Card(
-                              color: item['estatus'] == '0'
+                              color: !isSelected
                                   ? const Color(0xFF616161) // Gris si bloqueado
                                   : isSelected
-                                  ? Colors.greenAccent.withOpacity(
-                                      0.7,
-                                    ) // Color para seleccionado
+                                  ? Color(0xFFff4000) // Color para seleccionado
                                   : const Color(
                                       0xFFFF4000,
                                     ), // Naranja si activo pero no seleccionado
@@ -272,14 +270,7 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    if (isSelected)
-                                      const FaIcon(
-                                        FontAwesomeIcons.checkCircle,
-                                        color: Colors.white,
-                                        size: 20,
-                                      ),
-                                    const SizedBox(width: 8),
-                                    item['estatus'] == '0'
+                                    isSelected
                                         ? const FaIcon(
                                             FontAwesomeIcons.lockOpen,
                                             color: Colors.white,

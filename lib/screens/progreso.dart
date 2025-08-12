@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:neru/screens/home_screen.dart';
 import 'package:neru/screens/inicio/variables.dart';
 import 'package:neru/screens/perfil.dart';
-import 'package:neru/services/api.dart' as api_services;
 import 'package:neru/services/db_helper.dart';
 import 'package:neru/widgets/bottom_nav.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';

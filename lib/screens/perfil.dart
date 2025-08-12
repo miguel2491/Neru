@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neru/screens/home_screen.dart';
 import 'package:neru/screens/inicio/variables.dart';
 import 'package:neru/screens/login/login_screen.dart';
+import 'package:neru/services/api.dart' as api_services;
 import 'package:neru/services/db_helper.dart';
 import 'package:neru/widgets/boton.dart';
 import 'package:neru/widgets/bottom_nav.dart';
@@ -25,6 +24,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
   String nombre = "Usuario"; // 🔹 Aquí pones el nombre dinámico
   double progreso = 0.65; // 🔹 Entre 0.0 y 1.0
   final List<String> etiquetas = ["Éstres", "AutoConfianza", "Concentración"];
+  List<Map<String, dynamic>> variables = [];
 
   void _onItemTapped(int index) {
     if (index == 0) {
@@ -46,6 +46,52 @@ class _PerfilScreenState extends State<PerfilScreen> {
       );
       return;
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    api_services.mVariablesLocales();
+    _loadVariables();
+  }
+
+  Future<void> _loadVariables() async {
+    final vars = await DBHelper.getVariablesDB();
+    final actsUsr = await DBHelper.getUserActDB('1');
+    final allActs = await DBHelper.getActividadesDB();
+
+    final mergedVariables = vars.map((variable) {
+      final varId = variable['id'];
+
+      // Todas las actividades posibles para esta variable
+      final actsDeVariable = allActs
+          .where((act) => act['idvariable'] == varId)
+          .toList();
+      final totalPosibles = actsDeVariable.length;
+      print('🚕 $actsUsr');
+      // Actividades del usuario para esta variable (seleccionadas)
+      final actsUsuarioSeleccionadas = actsUsr
+          .where((act) => act['idactividad'] == varId)
+          .toList();
+      print('🌋🗻⌛ $actsUsuarioSeleccionadas');
+      final totalSeleccionadas = actsUsuarioSeleccionadas.length;
+
+      // Calcular el valor proporcional
+      final valor = totalPosibles > 0
+          ? totalSeleccionadas / totalPosibles
+          : 0.0;
+
+      return {
+        ...variable,
+        'valor': valor,
+        'totalSeleccionadas': totalSeleccionadas,
+        'totalPosibles': totalPosibles,
+      };
+    }).toList();
+
+    setState(() {
+      variables = List<Map<String, dynamic>>.from(mergedVariables);
+    });
   }
 
   @override
@@ -207,150 +253,56 @@ class _PerfilScreenState extends State<PerfilScreen> {
                     animation: true,
                   ),
                 ),
-                const SizedBox(height: 32),
-                // 🔹 Gráfica con tamaño fijo para evitar overflow
-                // SingleChildScrollView(
-                //   scrollDirection: Axis.horizontal,
-                //   child: SizedBox(
-                //     height: 320,
-                //     width: etiquetas.length * 180,
-                //     child: Container(
-                //       padding: const EdgeInsets.all(18),
-                //       decoration: BoxDecoration(
-                //         color: Colors.white, // Fondo blanco
-                //         borderRadius: BorderRadius.circular(
-                //           12,
-                //         ), // Bordes redondeados opcional
-                //         boxShadow: [
-                //           BoxShadow(
-                //             color: Colors.black26,
-                //             blurRadius: 6,
-                //             offset: Offset(0, 3),
-                //           ),
-                //         ],
-                //       ),
-                //       child: BarChart(
-                //         BarChartData(
-                //           gridData: FlGridData(show: true),
-                //           titlesData: FlTitlesData(
-                //             topTitles: AxisTitles(
-                //               sideTitles: SideTitles(showTitles: false),
-                //             ),
-                //             rightTitles: AxisTitles(
-                //               sideTitles: SideTitles(showTitles: false),
-                //             ),
-                //             bottomTitles: AxisTitles(
-                //               sideTitles: SideTitles(
-                //                 showTitles: true,
-                //                 getTitlesWidget: (value, meta) {
-                //                   // 🔹 Lista de nombres según el índice
-                //                   if (value.toInt() >= 0 &&
-                //                       value.toInt() < etiquetas.length) {
-                //                     return Padding(
-                //                       padding: const EdgeInsets.only(top: 8.0),
-                //                       child: Text(
-                //                         etiquetas[value.toInt()],
-                //                         style: const TextStyle(
-                //                           color: Colors.black,
-                //                           fontSize: 12,
-                //                           fontWeight: FontWeight.bold,
-                //                         ),
-                //                       ),
-                //                     );
-                //                   }
-                //                   return const SizedBox();
-                //                 },
-                //               ),
-                //             ),
-                //           ),
-                //           borderData: FlBorderData(show: true),
-                //           barGroups: List.generate(
-                //             etiquetas.length,
-                //             (index) => BarChartGroupData(
-                //               x: index,
-                //               barRods: [
-                //                 BarChartRodData(
-                //                   toY:
-                //                       (index + 1) *
-                //                       1.5, // 🔹 Ejemplo de valor dinámico
-                //                   color: Colors.blue,
-                //                   width: 16,
-                //                   borderRadius: BorderRadius.circular(4),
-                //                 ),
-                //               ],
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ), // 🔹 Botón de cerrar sesión
                 const SizedBox(height: 30),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'ESTRÉS',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                    const SizedBox(height: 8),
-                    Stack(
-                      children: [
-                        Container(
-                          height: 20,
-                          decoration: BoxDecoration(
-                            color: Colors.white24,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        FractionallySizedBox(
-                          widthFactor: 0.4, // 40%
-                          child: Container(
-                            height: 20,
-                            decoration: BoxDecoration(
-                              color: Color(0xFFBF4141),
-                              borderRadius: BorderRadius.circular(10),
+                  children: variables.map((varData) {
+                    final nombre = varData['nombre'] ?? '';
+                    final valor = (varData['valor'] as num?)?.toDouble() ?? 0.0;
+
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            nombre,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    const Text('40%', style: TextStyle(color: Colors.white)),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'CONCENTRACIÓN',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                    const SizedBox(height: 8),
-                    Stack(
-                      children: [
-                        Container(
-                          height: 20,
-                          decoration: BoxDecoration(
-                            color: Colors.white24,
-                            borderRadius: BorderRadius.circular(10),
+                          const SizedBox(height: 8),
+                          Stack(
+                            children: [
+                              Container(
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  color: Colors.white24,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              FractionallySizedBox(
+                                widthFactor: valor, // ej: 0.4 -> 40%
+                                child: Container(
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFBF4141),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        FractionallySizedBox(
-                          widthFactor: 0.8, // 40%
-                          child: Container(
-                            height: 20,
-                            decoration: BoxDecoration(
-                              color: Color(0xFFBF4141),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '${(valor * 100).toStringAsFixed(0)}%',
+                            style: const TextStyle(color: Colors.white),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    const Text('40%', style: TextStyle(color: Colors.white)),
-                  ],
+                        ],
+                      ),
+                    );
+                  }).toList(),
                 ),
                 const SizedBox(height: 32),
                 CustomActionButton(
