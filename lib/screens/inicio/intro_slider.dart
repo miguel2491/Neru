@@ -26,7 +26,7 @@ class _IntroSliderState extends State<IntroSlider> {
     if (index == 0) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const EntrenamientoScreen()),
+        MaterialPageRoute(builder: (context) => const VariablesScreen()),
       );
       return; // no cambies _selectedIndex si navegas
     } else if (index == 1) {
@@ -143,7 +143,7 @@ class _IntroSliderState extends State<IntroSlider> {
                     ElevatedButton(
                       onPressed: () => _saveSelection(0, "Concentración"),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFBF4141),
+                        backgroundColor: const Color(0xFFff4000),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -181,7 +181,7 @@ class _IntroSliderState extends State<IntroSlider> {
                     ElevatedButton(
                       onPressed: () => _saveSelection(1, "RELAJACIÓN 1"),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFBF4141),
+                        backgroundColor: const Color(0xFFff4000),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -299,7 +299,7 @@ class _IntroSliderState extends State<IntroSlider> {
                   controller: _controller,
                   count: 3,
                   effect: const ExpandingDotsEffect(
-                    activeDotColor: Color(0xFFBF4141),
+                    activeDotColor: Color(0xFFff4000),
                     dotHeight: 10,
                     dotWidth: 10,
                   ),

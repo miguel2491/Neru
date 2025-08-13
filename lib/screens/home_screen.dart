@@ -165,20 +165,20 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 32),
             CustomActionButton(
-              label: 'Contacta un psicologo en el deporte',
+              label: 'Contacta un psicologo en el deporte (Próximamente)',
               icon: FaIcon(
                 FontAwesomeIcons.phone,
                 color: Colors.white,
                 size: 20,
               ),
-              color: const Color(0xFFff4000),
+              color: const Color(0xFF616161),
               onPressed: () {
-                Navigator.pushNamed(context, '/progreso');
+                //Navigator.pushNamed(context, '/progreso');
               },
             ),
             const SizedBox(height: 32),
             CustomActionButton(
-              label: 'Chat IA (Próximamente)',
+              label: 'Chat AI (Próximamente)',
               icon: Image.asset(
                 'assets/iconos/i_chat.png',
                 width: 24,

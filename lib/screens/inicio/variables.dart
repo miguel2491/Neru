@@ -92,7 +92,7 @@ class _VariablesScreenState extends State<VariablesScreen> {
                         child: AudioPlayButton(
                           color: const Color(0xFFff4000),
                           url:
-                              'https://gcconsultoresmexico.com/audios/psicologia_deporte.mp3',
+                              'https://gcconsultoresmexico.com/audios/mi_pem.mp3',
                           label: 'Mi PEM',
                         ),
                       ),

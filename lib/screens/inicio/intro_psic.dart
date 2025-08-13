@@ -103,7 +103,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 horizontal: 32.0,
               ), // 🔹 Margen horizontal
               child: AudioPlayButton(
-                color: const Color(0xFFBF4141),
+                color: const Color(0xFFff4000),
                 url:
                     'https://gcconsultoresmexico.com/audios/psicologia_deporte.mp3',
                 label: '¿Qué es psicología del deporte?',
@@ -113,7 +113,7 @@ class _IntroScreenState extends State<IntroScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
               child: AudioPlayButton(
-                color: const Color(0xFFBF4141),
+                color: const Color(0xFFff4000),
                 url:
                     'https://gcconsultoresmexico.com/audios/psicologo_deportivo.mp3',
                 label: '¿Por que ir con un psicologo deportivo?',
