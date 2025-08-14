@@ -276,7 +276,7 @@ class _IntroSliderState extends State<IntroSlider> {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFBF4141),
+                        backgroundColor: Color(0xFFff4000),
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
