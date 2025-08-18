@@ -1,7 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:neru/screens/entrenamiento.dart';
 import 'package:neru/screens/home_screen.dart';
+import 'package:neru/screens/inicio/variables.dart';
 import 'package:neru/screens/perfil.dart';
 import 'package:neru/widgets/audio.dart';
 import 'package:neru/widgets/bottom_nav.dart';
@@ -20,7 +20,7 @@ class _IntroScreenState extends State<IntroScreen> {
     if (index == 0) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const EntrenamientoScreen()),
+        MaterialPageRoute(builder: (context) => const VariablesScreen()),
       );
       return; // no cambies _selectedIndex si navegas
     } else if (index == 1) {

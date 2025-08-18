@@ -98,7 +98,7 @@ class _VariablesScreenState extends State<VariablesScreen> {
                       ),
                       const SizedBox(height: 32),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
                         child: FutureBuilder<List<Widget>>(
                           future: _buildButtons(context),
                           builder: (context, snapshot) {
@@ -162,7 +162,7 @@ class _VariablesScreenState extends State<VariablesScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => EstresScreen(variable: idVar),
+                  builder: (_) => EstresScreen(variable: idVar, t_icono: icono),
                 ),
               );
             },

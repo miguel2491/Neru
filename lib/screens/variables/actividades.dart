@@ -183,7 +183,7 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
               const SizedBox(height: 8),
               // botón visible y centrado
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 62.0),
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
                 child: ElevatedButton(
                   onPressed: () {
                     // tu acción

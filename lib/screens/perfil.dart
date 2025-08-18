@@ -131,7 +131,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
         ),
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(25),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -175,20 +175,25 @@ class _PerfilScreenState extends State<PerfilScreen> {
                     color: Colors.white,
                     size: 32,
                   ),
-                  title: Text(
-                    'Minutos: $nombre',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                  title: Center(
+                    child: Text(
+                      'Minutos: $nombre',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  subtitle: const Text(
-                    'Tiempo promedio de ejercicios',
-                    style: TextStyle(fontSize: 14, color: Colors.red),
+                  subtitle: const Center(
+                    child: Text(
+                      'Tiempo promedio de ejercicios',
+                      style: TextStyle(fontSize: 14, color: Colors.red),
+                    ),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                 ),
+
                 const SizedBox(height: 24),
 
                 // 🔹 Tarjeta 2
@@ -198,17 +203,21 @@ class _PerfilScreenState extends State<PerfilScreen> {
                     color: Colors.white,
                     size: 32,
                   ),
-                  title: Text(
-                    'Minutos: $nombre',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                  title: Center(
+                    child: Text(
+                      'Minutos: $nombre',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  subtitle: const Text(
-                    'Tiempo total de ejercicios',
-                    style: TextStyle(fontSize: 14, color: Colors.red),
+                  subtitle: const Center(
+                    child: Text(
+                      'Tiempo total de ejercicios',
+                      style: TextStyle(fontSize: 14, color: Colors.red),
+                    ),
                   ),
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                 ),
@@ -221,17 +230,21 @@ class _PerfilScreenState extends State<PerfilScreen> {
                     color: Colors.white,
                     size: 32,
                   ),
-                  title: Text(
-                    'Sesiones: $nombre',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                  title: Center(
+                    child: Text(
+                      'Sesiones: $nombre',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  subtitle: const Text(
-                    'Sesiones Terminadas',
-                    style: TextStyle(fontSize: 14, color: Colors.red),
+                  subtitle: const Center(
+                    child: Text(
+                      'Sesiones Terminadas',
+                      style: TextStyle(fontSize: 14, color: Colors.red),
+                    ),
                   ),
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                 ),
