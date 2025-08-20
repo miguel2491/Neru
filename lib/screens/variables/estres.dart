@@ -208,7 +208,7 @@ class _EstresScreenState extends State<EstresScreen> {
                 ),
                 TextSpan(
                   text:
-                      "Antes de salir al campo sientes como tu corazón late más, presentas dolor de estomago, nauseas, dolores musculares, calambres, en el campo puedes estar más violento, sentir sensación de huir o retirarte también dsminuye tu concentración, influye en la toma de decisiones y hace que se presenten pensamientos confusos.",
+                      "Antes de salir al campo sientes como tu corazón late más, presentas dolor de estómago, nauseas, dolores musculares, calambres, en el campo puedes estar más violento, sentir sensaciones de huir o retirarte, también disminuye tu concentración, influye en la toma de decisiones y hace que se presenten pensamientos confusos.",
                 ),
               ],
             ),
@@ -489,34 +489,6 @@ class _EstresScreenState extends State<EstresScreen> {
         ),
         const SizedBox(height: 16),
 
-        // Pregunta en bloque rojo
-        Container(
-          color: const Color(0xFFFF4000),
-          padding: const EdgeInsets.all(12),
-          margin: const EdgeInsets.symmetric(horizontal: 16),
-          child: const Text(
-            "¿Cuál es la activación óptima?",
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        const SizedBox(height: 8),
-
-        // Texto explicativo
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            "Lograr una buena activación cada que entrenes o juegues un partido es posible.",
-            style: TextStyle(fontSize: 14, color: Colors.white, height: 1.5),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        const SizedBox(height: 16),
-
         // Gráfico
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -700,7 +672,7 @@ class _EstresScreenState extends State<EstresScreen> {
                 ),
                 TextSpan(
                   text:
-                      "Luchas por ser el goleador del torno, para llegar a lograrlo deberás trabajar constantemente en tu técnica, tu definición, tu confianza para anotar, todo sin dejar de sentir la emoción de lograr ese objetivo.",
+                      "Luchas por ser el goleador del torneo, para llegar a lograrlo deberás trabajar constantemente en tu técnica, tu definición, tu confianza para anotar, todo sin dejar de sentir la emoción de lograr ese objetivo.",
                 ),
               ],
             ),
@@ -960,7 +932,7 @@ class _EstresScreenState extends State<EstresScreen> {
           padding: const EdgeInsets.all(16),
           margin: const EdgeInsets.symmetric(horizontal: 16),
           child: const Text(
-            "El control emocional es uno de los elementos de la fortaleza mental, es la habilidad que tienes para controlar tus emociones, una pieza muy importante para llegar a domnar tu actuación en el campo y tner un mejor domnio en el terreno de juego.",
+            "El control emocional es uno de los elementos de la fortaleza mental, es la habilidad que tienes para controlar tus emociones, una pieza muy importante para llegar a dominar tu actuación en el campo y tener un mejor dominio en el terreno de juego.",
             style: TextStyle(fontSize: 14, color: Colors.white, height: 1.5),
             textAlign: TextAlign.center,
           ),

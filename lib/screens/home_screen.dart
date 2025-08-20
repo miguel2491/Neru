@@ -11,6 +11,7 @@ import 'package:neru/screens/perfil.dart';
 import 'package:neru/widgets/bottom_nav.dart';
 //import '../widgets/app_drawer.dart';
 import 'package:neru/widgets/boton.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final int _selectedIndex = 1;
+  bool _encuestaMostrada = false;
 
   void _onItemTapped(int index) {
     if (index == 0) {
@@ -41,6 +43,90 @@ class _HomeScreenState extends State<HomeScreen> {
       );
       return;
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _verificarEncuesta();
+  }
+
+  Future<void> _verificarEncuesta() async {
+    final prefs = await SharedPreferences.getInstance();
+    final yaRespondio = prefs.getBool('encuestaRespondida') ?? false;
+
+    if (!yaRespondio) {
+      // Esperamos un poco para que cargue la UI
+      Future.delayed(const Duration(seconds: 1), () {
+        _mostrarEncuesta(context);
+      });
+    }
+  }
+
+  void _mostrarEncuesta(BuildContext context) {
+    int _rating = 0;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              title: const Text("Encuesta de satisfacción"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text("¿Qué tan satisfecho estás con la app?"),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(5, (index) {
+                      return IconButton(
+                        icon: Icon(
+                          index < _rating ? Icons.star : Icons.star_border,
+                          color: Colors.amber,
+                          size: 32,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _rating = index + 1;
+                          });
+                        },
+                      );
+                    }),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Cancelar"),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.setBool('encuestaRespondida', true);
+
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          "¡Gracias por tu calificación de $_rating estrellas!",
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Text("Enviar"),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
   final List<Widget> _pages = [
