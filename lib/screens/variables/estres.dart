@@ -135,7 +135,18 @@ class _EstresScreenState extends State<EstresScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF00406a),
         foregroundColor: Colors.white,
-        title: const Text("NERU"),
+        title: Stack(
+          children: [
+            // 🔹 Texto alineado a la derecha
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'NERU',
+                style: const TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(child: content),
       bottomNavigationBar: CustomBottomNavBar(

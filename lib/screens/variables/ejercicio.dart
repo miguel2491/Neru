@@ -28,6 +28,7 @@ class EjercicioScreen extends StatefulWidget {
 class _EjercicioScreenState extends State<EjercicioScreen> {
   final int _selectedIndex = 0;
   String? usuario;
+  bool _actividadYaRealizada = false;
 
   final List<Widget> _pages = [
     Center(
@@ -76,31 +77,34 @@ class _EjercicioScreenState extends State<EjercicioScreen> {
     final prefs = await SharedPreferences.getInstance();
     final user = prefs.getString('auth_nombre');
     print('☠️👻${widget.id}');
-    final usuarioAct = await DBHelper.getActUsrDB(widget.ide);
+    final usuarioAct = await DBHelper.getActUsrDB(widget.ide + 1);
     if (usuarioAct.isNotEmpty) {
-      if (usuarioAct.isNotEmpty) {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Éxito'),
-            content: Text('Actividad YA realizada correctamente'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          ActividadesScreen(variable: widget.ida),
-                    ),
-                  );
-                },
-                child: Text('OK'),
-              ),
-            ],
-          ),
-        );
-      }
+      setState(() {
+        _actividadYaRealizada = usuarioAct.isNotEmpty; // 👈 true si ya existe
+      });
+      // if (usuarioAct.isNotEmpty) {
+      //   showDialog(
+      //     context: context,
+      //     builder: (context) => AlertDialog(
+      //       title: Text('Éxito'),
+      //       content: Text('Actividad YA realizada correctamente'),
+      //       actions: [
+      //         TextButton(
+      //           onPressed: () {
+      //             Navigator.push(
+      //               context,
+      //               MaterialPageRoute(
+      //                 builder: (context) =>
+      //                     ActividadesScreen(variable: widget.ida),
+      //               ),
+      //             );
+      //           },
+      //           child: Text('OK'),
+      //         ),
+      //       ],
+      //     ),
+      //   );
+      // }
     }
     setState(() {});
   }
@@ -169,95 +173,99 @@ class _EjercicioScreenState extends State<EjercicioScreen> {
               ],
             ),
             const SizedBox(height: 80),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          //final successMap = actividad.map((v) => v.toMap()).toList();
-                          final result = await DBHelper.clearAndInsertUserAct([
-                            {
-                              'idusuario': usuario,
-                              'idactividad': widget.ida,
-                              'idejercicio': widget.id,
-                              'estatus': '1',
-                              'fca_creacion': DateTime.now().toIso8601String(),
-                            },
-                          ]);
-                          if (result > 0) {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: Text('Éxito'),
-                                content: Text(
-                                  'Actividad Realizada correctamente',
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () => {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              ActividadesScreen(
-                                                variable: widget.ida,
-                                              ),
-                                        ),
-                                      ),
-                                    },
-                                    child: Text('OK'),
+            if (!_actividadYaRealizada)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            //final successMap = actividad.map((v) => v.toMap()).toList();
+                            final result = await DBHelper.clearAndInsertUserAct(
+                              [
+                                {
+                                  'idusuario': usuario,
+                                  'idactividad': widget.ida,
+                                  'idejercicio': widget.id + 1,
+                                  'estatus': '1',
+                                  'fca_creacion': DateTime.now()
+                                      .toIso8601String(),
+                                },
+                              ],
+                            );
+                            if (result > 0) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('Éxito'),
+                                  content: Text(
+                                    'Actividad Realizada correctamente',
                                   ),
-                                ],
-                              ),
-                            );
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: (_) => const AlertDialog(
-                                title: Text('Error'),
-                                content: Text(
-                                  'No se pudo guardar la actividad',
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ActividadesScreen(
+                                                  variable: widget.ida,
+                                                ),
+                                          ),
+                                        ),
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            );
-                          }
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (_) =>
-                          //         ActividadesScreen(variable: widget.id),
-                          //   ),
-                          // );
-                        },
-                        child: Container(
-                          width: 80,
-                          height: 80,
-                          decoration: const BoxDecoration(
-                            color: Colors.blue,
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(
-                            Icons.check,
-                            color: Colors.white,
-                            size: 40,
+                              );
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (_) => const AlertDialog(
+                                  title: Text('Error'),
+                                  content: Text(
+                                    'No se pudo guardar la actividad',
+                                  ),
+                                ),
+                              );
+                            }
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (_) =>
+                            //         ActividadesScreen(variable: widget.id),
+                            //   ),
+                            // );
+                          },
+                          child: Container(
+                            width: 80,
+                            height: 80,
+                            decoration: const BoxDecoration(
+                              color: Colors.blue,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 40,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      const Text(
-                        "Presiona para Finalizar la Actividad",
-                        style: TextStyle(color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
+                        const SizedBox(height: 8),
+                        const Text(
+                          "Presiona para Finalizar la Actividad",
+                          style: TextStyle(color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
           ],
         ),
       ),

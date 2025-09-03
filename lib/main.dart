@@ -34,10 +34,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'NERU',
-      debugShowCheckedModeBanner: true,
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: const Color(0xFF494859),
-        fontFamily: 'Monserrat',
+        scaffoldBackgroundColor: Colors.black,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF00406a),
+          foregroundColor: Colors.white,
+        ),
+        // 👇 Aquí defines la fuente y tamaños por defecto
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(fontSize: 16, color: Colors.white),
+          bodyMedium: TextStyle(fontSize: 14, color: Colors.white),
+          bodySmall: TextStyle(fontSize: 12, color: Colors.white),
+          titleLarge: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        fontFamily:
+            "Roboto", // 👈 aquí puedes cambiar por otra (ej: Montserrat)
       ),
       home: CheckAuthScreen(),
     );

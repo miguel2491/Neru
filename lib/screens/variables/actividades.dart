@@ -106,10 +106,12 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
     final actividades = await DBHelper.getActividadesByVariableId(
       widget.variable,
     );
+
     final actsUsr = await DBHelper.getUserActDB('1');
     final variableData = await DBHelper.getVariableById(widget.variable);
-    final userActIds = actsUsr.map((act) => act['id']).toSet();
-
+    final userActIds = actsUsr.map((act) => act['idejercicio']).toSet();
+    print('☠️ $actsUsr');
+    print('👻 $userActIds');
     if (variableData != null) {
       setState(() {
         nameVar = variableData['nombre'] ?? '';
@@ -122,7 +124,7 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
       final isSelected = userActIds.contains(item['id']);
       return {...item, 'isSelected': isSelected};
     }).toList();
-    print('🌋 $mergedActividades');
+    print('💀 $mergedActividades');
     setState(() {
       _actividades = mergedActividades;
     });
@@ -236,10 +238,12 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
                         itemCount: _actividades.length,
                         itemBuilder: (context, index) {
                           final item = _actividades[index];
-                          final isSelected = item['isSelected'] ?? false;
-
+                          //final isSelected = item['isSelected'] ?? false;
+                          final isSelected = index == 0
+                              ? true
+                              : (item['isSelected'] ?? false);
                           return InkWell(
-                            onTap: !isSelected
+                            onTap: isSelected
                                 ? () {
                                     Navigator.push(
                                       context,

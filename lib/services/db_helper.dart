@@ -186,4 +186,16 @@ class DBHelper {
 
     await db.close(); // Cierra la DB
   }
+
+  static Future<void> borrarTablas() async {
+    // Abre la base de datos
+    final databasePath = await getDatabasesPath();
+    final path = join(databasePath, 'app.db'); // Usa el mismo nombre de tu DB
+    final db = await openDatabase(path);
+
+    // Borra todas las tablas
+    await db.execute('DROP TABLE IF EXISTS usuario_actividad');
+
+    await db.close(); // Cierra la DB
+  }
 }

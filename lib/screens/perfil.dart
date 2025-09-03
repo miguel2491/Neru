@@ -165,64 +165,61 @@ class _PerfilScreenState extends State<PerfilScreen> {
                   ),
                 ),
                 const SizedBox(height: 32),
+
                 const CenteredDivider(title: 'ESTADÍSTICAS'),
                 const SizedBox(height: 32),
-
                 // 🔹 Tarjeta 1
-                ListTile(
-                  leading: const FaIcon(
-                    FontAwesomeIcons.hourglass,
-                    color: Colors.white,
-                    size: 32,
-                  ),
-                  title: Center(
-                    child: Text(
-                      'Minutos: $nombre',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  subtitle: const Center(
-                    child: Text(
-                      'Tiempo promedio de ejercicios',
-                      style: TextStyle(fontSize: 14, color: Colors.red),
-                    ),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                ),
-
-                const SizedBox(height: 24),
-
+                // ListTile(
+                //   leading: const FaIcon(
+                //     FontAwesomeIcons.hourglass,
+                //     color: Colors.white,
+                //     size: 32,
+                //   ),
+                //   title: Center(
+                //     child: Text(
+                //       'Minutos: $nombre',
+                //       style: const TextStyle(
+                //         fontSize: 18,
+                //         color: Colors.white,
+                //         fontWeight: FontWeight.bold,
+                //       ),
+                //     ),
+                //   ),
+                //   subtitle: const Center(
+                //     child: Text(
+                //       'Tiempo promedio de ejercicios',
+                //       style: TextStyle(fontSize: 14, color: Colors.red),
+                //     ),
+                //   ),
+                //   contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                // ),
+                // const SizedBox(height: 24),
                 // 🔹 Tarjeta 2
-                ListTile(
-                  leading: const FaIcon(
-                    FontAwesomeIcons.chartPie,
-                    color: Colors.white,
-                    size: 32,
-                  ),
-                  title: Center(
-                    child: Text(
-                      'Minutos: $nombre',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  subtitle: const Center(
-                    child: Text(
-                      'Tiempo total de ejercicios',
-                      style: TextStyle(fontSize: 14, color: Colors.red),
-                    ),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                ),
-                const SizedBox(height: 24),
-
+                // ListTile(
+                //   leading: const FaIcon(
+                //     FontAwesomeIcons.chartPie,
+                //     color: Colors.white,
+                //     size: 32,
+                //   ),
+                //   title: Center(
+                //     child: Text(
+                //       'Minutos: $nombre',
+                //       style: const TextStyle(
+                //         fontSize: 18,
+                //         color: Colors.white,
+                //         fontWeight: FontWeight.bold,
+                //       ),
+                //     ),
+                //   ),
+                //   subtitle: const Center(
+                //     child: Text(
+                //       'Tiempo total de ejercicios',
+                //       style: TextStyle(fontSize: 14, color: Colors.red),
+                //     ),
+                //   ),
+                //   contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                // ),
+                // const SizedBox(height: 24),
                 // 🔹 Tarjeta 3
                 ListTile(
                   leading: const FaIcon(
@@ -249,7 +246,6 @@ class _PerfilScreenState extends State<PerfilScreen> {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                 ),
                 const SizedBox(height: 24),
-
                 // 🔹 Indicador circular
                 Center(
                   child: CircularPercentIndicator(

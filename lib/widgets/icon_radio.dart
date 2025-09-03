@@ -28,9 +28,12 @@ class _IconRadioGroupState extends State<IconRadioGroup> {
         final isSelected = selectedIndex == index;
         return GestureDetector(
           onTap: () {
-            setState(() {
-              selectedIndex = index;
-            });
+            if (index == 0) {
+              // solo permite seleccionar el primero
+              setState(() {
+                selectedIndex = index;
+              });
+            }
           },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),

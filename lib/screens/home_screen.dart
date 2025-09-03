@@ -8,6 +8,7 @@ import 'package:neru/screens/inicio/intro_psic.dart';
 import 'package:neru/screens/inicio/intro_slider.dart';
 import 'package:neru/screens/inicio/variables.dart';
 import 'package:neru/screens/perfil.dart';
+import 'package:neru/services/db_helper.dart';
 import 'package:neru/widgets/bottom_nav.dart';
 //import '../widgets/app_drawer.dart';
 import 'package:neru/widgets/boton.dart';
@@ -48,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _verificarEncuesta();
+    //_verificarEncuesta();
   }
 
   Future<void> _verificarEncuesta() async {
@@ -186,15 +187,15 @@ class _HomeScreenState extends State<HomeScreen> {
         // ],
       ),
       // drawer: const AppDrawer(),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
-        onPressed: () {
-          print('FAB presionado');
-          // Puedes navegar a otra pantalla si quieres
-          // Navigator.push(context, MaterialPageRoute(builder: (_) => OtraPantalla()));
-        },
-        child: const Icon(Icons.help),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Colors.white,
+      //   onPressed: () {
+      //     print('FAB presionado');
+      //     // Puedes navegar a otra pantalla si quieres
+      //     // Navigator.push(context, MaterialPageRoute(builder: (_) => OtraPantalla()));
+      //   },
+      //   child: const Icon(Icons.help),
+      // ),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -299,6 +300,22 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             const SizedBox(height: 32),
+
+            // CustomActionButton(
+            //   label: 'BorrarBase',
+            //   icon: Image.asset(
+            //     'assets/iconos/i_chat.png',
+            //     width: 24,
+            //     height: 24,
+            //     color: Colors
+            //         .white, // opcional, si la imagen es un ícono PNG blanco y negro
+            //   ),
+            //   color: const Color(0xFF4b96c8),
+            //   onPressed: () async {
+            //     final result = await DBHelper.borrarTablas();
+            //     print('🎈 Tabla Borrada');
+            //   },
+            // ),
             _pages[_selectedIndex],
           ],
         ),
