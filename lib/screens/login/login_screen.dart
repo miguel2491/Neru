@@ -31,9 +31,11 @@ class _LoginScreenState extends State<LoginScreen> {
     final username = emailController.text.trim();
     final password = passwordController.text;
     setState(() => loading = true);
+
     final url = Uri.parse(
       'https://gcconsultoresmexico.com/api/api.php?action=get_user',
     );
+
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -44,33 +46,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      await _loadVariables();
-      await _loadActividades();
-      if (!mounted) return;
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
-      );
-      if (data.length > 0) {
-        final data_ = jsonDecode(response.body);
-        if (data_ is List && data_.isNotEmpty) {
-          final user = data[0]; // Primer usuario de la lista
-          print('🌋🗻🚕 $user');
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('auth_usuario', username);
-          await prefs.setString('auth_nombre', user['nombre']);
-          await prefs.setString('auth_rol', user['rol']);
-          await prefs.setString('auth_token', user['token']);
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => const HomeScreen()),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Error en la conexión al servidor')),
-          );
-        }
+      if (data is List && data.isNotEmpty) {
+        final user = data[0];
+        print('🌋🗻🚕 $user');
+
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('auth_usuario', username);
+        await prefs.setString('auth_nombre', user['nombre']);
+        await prefs.setString('auth_rol', user['rol']);
+        await prefs.setString('auth_token', user['token']);
+
+        // 🔹 Ahora carga variables y actividades con el usuario ya guardado
+        await _loadVariables();
+        await _loadActividades();
+
+        if (!mounted) return;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
+        );
       } else {
         _showError('Usuario o contraseña incorrectos');
       }

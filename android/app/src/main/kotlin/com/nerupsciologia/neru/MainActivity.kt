@@ -1,4 +1,4 @@
-package com.example.neru
+package com.nerupsciologia.neru
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -2,7 +2,7 @@ name: neru
 description: "Psicologia del Deporte."
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 1.0.0+5
 
 environment:
   sdk: ^3.8.1
@@ -49,6 +49,7 @@ flutter:
     - assets/audio/muscular.mp3
     - assets/variables/
     - assets/iconos/
+    - assets/privacy_policy.txt
     - .env
   fonts:
     - family: Monserrat

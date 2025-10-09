@@ -9,6 +9,7 @@ import 'package:neru/screens/inicio/intro_slider.dart';
 import 'package:neru/screens/inicio/variables.dart';
 import 'package:neru/screens/perfil.dart';
 import 'package:neru/services/db_helper.dart';
+import 'package:neru/widgets/politicas.dart';
 import 'package:neru/widgets/bottom_nav.dart';
 //import '../widgets/app_drawer.dart';
 import 'package:neru/widgets/boton.dart';
@@ -300,7 +301,24 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             const SizedBox(height: 32),
-
+            CustomActionButton(
+              label: 'Políticas de Privacidad',
+              icon: Image.asset(
+                'assets/iconos/i_psico.png',
+                width: 24,
+                height: 24,
+                color: Colors
+                    .white, // opcional, si la imagen es un ícono PNG blanco y negro
+              ),
+              color: const Color(0xFFff4000),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const PrivacyPolicyPage()),
+                );
+              },
+            ),
+            const SizedBox(height: 32),
             // CustomActionButton(
             //   label: 'BorrarBase',
             //   icon: Image.asset(

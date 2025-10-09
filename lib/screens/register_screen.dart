@@ -43,11 +43,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        'usuario': email,
+        'usuario': nombre,
         'email': email,
         'telefono': '---',
         'password': password,
-        'nombre': '---',
+        'nombre': nombre,
         'app': '---',
         'token': '-',
         'direccion': '--',
@@ -131,7 +131,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: TextStyle(color: Colors.white, fontSize: 24),
                     ),
                     const SizedBox(height: 10),
-                    _buildEmail(label: 'Nombre', controller: nombreController),
+                    _buildTextField(
+                      label: 'Nombre',
+                      controller: nombreController,
+                    ),
                     const SizedBox(height: 20),
                     _buildEmail(
                       label: 'Correo Electrónico',

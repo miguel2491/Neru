@@ -22,7 +22,7 @@ class PerfilScreen extends StatefulWidget {
 class _PerfilScreenState extends State<PerfilScreen> {
   final int _selectedIndex = 2;
   String nombre = "Usuario"; // 🔹 Aquí pones el nombre dinámico
-  double progreso = 0.65; // 🔹 Entre 0.0 y 1.0
+  double progreso = 0.0; // 🔹 Entre 0.0 y 1.0
   final List<String> etiquetas = ["Éstres", "AutoConfianza", "Concentración"];
   List<Map<String, dynamic>> variables = [];
 
@@ -59,7 +59,10 @@ class _PerfilScreenState extends State<PerfilScreen> {
     final vars = await DBHelper.getVariablesDB();
     final actsUsr = await DBHelper.getUserActDB('1');
     final allActs = await DBHelper.getActividadesDB();
-
+    print('🗻 ${allActs.length}');
+    print('⚽ ${actsUsr.length}');
+    final promedioT = actsUsr.length / allActs.length;
+    print('✅ $promedioT');
     final mergedVariables = vars.map((variable) {
       final varId = variable['id'];
 
@@ -68,18 +71,19 @@ class _PerfilScreenState extends State<PerfilScreen> {
           .where((act) => act['idvariable'] == varId)
           .toList();
       final totalPosibles = actsDeVariable.length;
-      print('🚕 $actsUsr');
+      //print('🚕 $actsUsr');
       // Actividades del usuario para esta variable (seleccionadas)
       final actsUsuarioSeleccionadas = actsUsr
           .where((act) => act['idactividad'] == varId)
           .toList();
-      print('🌋🗻⌛ $actsUsuarioSeleccionadas');
+      //print('🌋🗻⌛ $actsUsuarioSeleccionadas');
       final totalSeleccionadas = actsUsuarioSeleccionadas.length;
 
       // Calcular el valor proporcional
       final valor = totalPosibles > 0
           ? totalSeleccionadas / totalPosibles
           : 0.0;
+      print('☠️👻 $valor');
 
       return {
         ...variable,
@@ -91,6 +95,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
 
     setState(() {
       variables = List<Map<String, dynamic>>.from(mergedVariables);
+      progreso = double.parse(promedioT.toStringAsFixed(2));
     });
   }
 
