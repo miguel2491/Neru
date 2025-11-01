@@ -59,10 +59,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
     final vars = await DBHelper.getVariablesDB();
     final actsUsr = await DBHelper.getUserActDB('1');
     final allActs = await DBHelper.getActividadesDB();
-    print('🗻 ${allActs.length}');
-    print('⚽ ${actsUsr.length}');
     final promedioT = actsUsr.length / allActs.length;
-    print('✅ $promedioT');
     final mergedVariables = vars.map((variable) {
       final varId = variable['id'];
 
@@ -317,6 +314,69 @@ class _PerfilScreenState extends State<PerfilScreen> {
                       ),
                     );
                   }).toList(),
+                ),
+                const SizedBox(height: 32),
+                CustomActionButton(
+                  label: 'Eliminar Cuenta',
+                  icon: FaIcon(FontAwesomeIcons.remove, color: Colors.white),
+                  color: const Color(0xFFff4000),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text("Eliminar tus datos"),
+                          content: const Text("¿Desea eliminar tu cuenta?"),
+                          actions: [
+                            TextButton(
+                              child: const Text("Cancelar"),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                            TextButton(
+                              child: const Text("Sí, eliminar"),
+                              onPressed: () async {
+                                final success = await api_services
+                                    .eliminarCuenta();
+
+                                if (success) {
+                                  await DBHelper.borrarTablasLocales();
+
+                                  if (mounted) {
+                                    Navigator.of(context).pop();
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const LoginScreen(),
+                                      ),
+                                    );
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          '✅ Cuenta eliminada correctamente',
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                } else {
+                                  if (mounted) {
+                                    Navigator.of(context).pop();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          '❌ No se pudo eliminar la cuenta. Inténtalo más tarde.',
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
                 ),
                 const SizedBox(height: 32),
                 CustomActionButton(

@@ -199,6 +199,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
       controller: controller,
       obscureText: obscure,
       style: const TextStyle(color: Colors.white),
+      onChanged: (value) {
+        final lowercase = value.toLowerCase();
+        if (value != lowercase) {
+          // Evita loops infinitos
+          controller.value = controller.value.copyWith(
+            text: lowercase,
+            selection: TextSelection.collapsed(offset: lowercase.length),
+          );
+        }
+      },
       decoration: InputDecoration(
         labelText: label,
         labelStyle: const TextStyle(color: Colors.white70),

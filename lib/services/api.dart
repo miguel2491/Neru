@@ -34,6 +34,44 @@ Future<List<Actividad>> fActividades() async {
   }
 }
 
+Future<bool> eliminarCuenta() async {
+  final prefs = await SharedPreferences.getInstance();
+  final usuario = prefs.getString('auth_usuario');
+
+  if (usuario == null || usuario.isEmpty) {
+    print('⚠️ No se encontró el usuario en SharedPreferences');
+    return false;
+  }
+
+  final url = Uri.parse(
+    'https://gcconsultoresmexico.com/api/api.php?action=del_usuario&user=$usuario',
+  );
+
+  try {
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+
+      if (body is Map && body['success'] == true) {
+        print('✅ Cuenta eliminada correctamente en el servidor.');
+        return true;
+      } else {
+        print(
+          '⚠️ Error del servidor: ${body['error'] ?? 'Respuesta inesperada'}',
+        );
+        return false;
+      }
+    } else {
+      print('⚠️ Código HTTP: ${response.statusCode}');
+      return false;
+    }
+  } catch (e) {
+    print('❌ Error de conexión: $e');
+    return false;
+  }
+}
+
 //LOCALES
 void mVariablesLocales() async {
   final usuarios = await DBHelper.getVariablesDB();

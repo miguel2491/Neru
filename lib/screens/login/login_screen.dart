@@ -49,8 +49,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (data is List && data.isNotEmpty) {
         final user = data[0];
-        print('🌋🗻🚕 $user');
-
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('auth_usuario', username);
         await prefs.setString('auth_nombre', user['nombre']);
