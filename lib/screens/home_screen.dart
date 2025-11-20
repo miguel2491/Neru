@@ -23,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final int _selectedIndex = 1;
-  bool _encuestaMostrada = false;
+  final bool _encuestaMostrada = false;
 
   void _onItemTapped(int index) {
     if (index == 0) {
@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _mostrarEncuesta(BuildContext context) {
-    int _rating = 0;
+    int rating = 0;
 
     showDialog(
       context: context,
@@ -88,13 +88,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: List.generate(5, (index) {
                       return IconButton(
                         icon: Icon(
-                          index < _rating ? Icons.star : Icons.star_border,
+                          index < rating ? Icons.star : Icons.star_border,
                           color: Colors.amber,
                           size: 32,
                         ),
                         onPressed: () {
                           setState(() {
-                            _rating = index + 1;
+                            rating = index + 1;
                           });
                         },
                       );
@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          "¡Gracias por tu calificación de $_rating estrellas!",
+                          "¡Gracias por tu calificación de $rating estrellas!",
                         ),
                       ),
                     );
@@ -253,13 +253,13 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 32),
             CustomActionButton(
-              label: 'Contacta un psicologo en el deporte (Próximamente)',
+              label: 'Contacta un psicologo',
               icon: FaIcon(
                 FontAwesomeIcons.phone,
                 color: Colors.white,
                 size: 20,
               ),
-              color: const Color(0xFF616161),
+              color: const Color(0xFFff4000),
               onPressed: () {
                 //Navigator.pushNamed(context, '/progreso');
               },

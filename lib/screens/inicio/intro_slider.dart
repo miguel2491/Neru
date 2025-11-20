@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:neru/screens/entrenamiento.dart';
 import 'package:neru/screens/home_screen.dart';
 import 'package:neru/screens/inicio/slide_page.dart';
 import 'package:neru/screens/inicio/variables.dart';

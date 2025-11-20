@@ -88,7 +88,7 @@ class _IntroScreenState extends State<IntroScreen> {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 60.0, vertical: 50.0),
               child: Text(
-                '¿Estas listo para aumentar tu rendimiento DEPORTIVO?',
+                '¿Estas listo/a para aumentar tu rendimiento DEPORTIVO?',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,

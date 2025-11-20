@@ -107,10 +107,13 @@ class _PerfilScreenState extends State<PerfilScreen> {
             // 🔹 Ícono centrado
             Align(
               alignment: Alignment.center,
-              child: FaIcon(
-                FontAwesomeIcons.user,
-                color: Colors.white,
-                size: 20,
+              child: Transform.translate(
+                offset: const Offset(-30, 0), // 👈 mueve 10px a la izquierda
+                child: FaIcon(
+                  FontAwesomeIcons.user,
+                  color: Colors.white,
+                  size: 20,
+                ),
               ),
             ),
             // 🔹 Texto alineado a la derecha
@@ -145,29 +148,50 @@ class _PerfilScreenState extends State<PerfilScreen> {
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
+                const SizedBox(height: 32),
+                Center(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ), // 👈 espacio interno del rectángulo
+                    decoration: BoxDecoration(
+                      color: Color(
+                        0xFFff4000,
+                      ), // 👈 color del fondo del rectángulo
+                      borderRadius: BorderRadius.circular(
+                        12,
+                      ), // 👈 bordes redondeados
+                      border: Border.all(
+                        color: Colors.red, // 👈 borde opcional
+                        width: 2,
+                      ),
+                    ),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                        children: [
+                          const TextSpan(text: 'HOLA\n'),
+                          TextSpan(
+                            text: '$nombre\n\n', // 👈 este lo ponemos bold
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
 
-                const SizedBox(height: 32),
-                Center(
-                  child: Text(
-                    'HOLA $nombre',
-                    style: const TextStyle(color: Colors.red, fontSize: 20),
+                          const TextSpan(text: 'Te uniste en 2025\n'),
+                          TextSpan(
+                            text: 'FUTBOL',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 32),
-                Center(
-                  child: Text(
-                    'Te Uniste en  2025',
-                    style: const TextStyle(color: Colors.red, fontSize: 20),
-                  ),
-                ),
-                Center(
-                  child: Text(
-                    'FUTBOL',
-                    style: const TextStyle(color: Colors.red, fontSize: 20),
-                  ),
-                ),
-                const SizedBox(height: 32),
-
                 const CenteredDivider(title: 'ESTADÍSTICAS'),
                 const SizedBox(height: 32),
                 // 🔹 Tarjeta 1

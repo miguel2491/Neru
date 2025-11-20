@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class PrivacyPolicyPage extends StatefulWidget {
   const PrivacyPolicyPage({super.key});
@@ -27,10 +28,11 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
       final response = await http.get(Uri.parse(apiUrl));
 
       if (response.statusCode == 200) {
+        final decodedBody = utf8.decode(response.bodyBytes);
+        final data = jsonDecode(decodedBody);
+
         setState(() {
-          _policyText = response.body; // 🔹 Si tu API devuelve texto plano
-          // Si tu API devuelve JSON, usa:
-          // _policyText = jsonDecode(response.body)['policyText'];
+          _policyText = data['policyText'];
           _isLoading = false;
         });
       } else {
@@ -57,7 +59,16 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                 child: Text('Error al cargar la política. Intenta más tarde.'),
               )
             : SingleChildScrollView(
-                child: Text(_policyText, style: const TextStyle(fontSize: 16)),
+                child: Text(
+                  _policyText,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    height: 1.4,
+                  ),
+                ),
               ),
       ),
     );

@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:neru/screens/calendario.dart';
-import 'package:neru/screens/entrenamiento.dart';
 import 'package:neru/screens/home_screen.dart';
 import 'package:neru/screens/inicio/variables.dart';
 import 'package:neru/screens/perfil.dart';
-import 'package:neru/screens/progreso.dart';
 import 'package:neru/screens/variables/actividades.dart';
 import 'package:neru/services/db_helper.dart';
 import 'package:neru/widgets/bottom_nav.dart';
@@ -120,8 +116,10 @@ class _EstresScreenState extends State<EstresScreen> {
         content = const Center(child: Text("Variable no encontrada"));
     }
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.blue,
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFF00406a), // 👈 color del botón
+        foregroundColor: Colors.white,
         onPressed: () {
           Navigator.push(
             context,
@@ -130,7 +128,7 @@ class _EstresScreenState extends State<EstresScreen> {
             ),
           );
         },
-        child: const Icon(Icons.arrow_circle_right),
+        child: const Icon(Icons.arrow_forward_ios),
       ),
       appBar: AppBar(
         backgroundColor: const Color(0xFF00406a),
@@ -148,7 +146,17 @@ class _EstresScreenState extends State<EstresScreen> {
           ],
         ),
       ),
-      body: SingleChildScrollView(child: content),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/fondo.png'),
+            fit: BoxFit.cover, // 👈 cubre toda la pantalla
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: content, // tu contenido centrado o lo que necesites
+        ),
+      ),
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: 0,
         onItemTapped: _onItemTapped,

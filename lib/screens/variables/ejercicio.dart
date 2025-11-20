@@ -200,7 +200,21 @@ class _EjercicioScreenState extends State<EjercicioScreen> {
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
-                                  title: Text('Éxito'),
+                                  backgroundColor: Color(
+                                    0xFF00406a,
+                                  ), // 👈 color del fondo del modal
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  title: Text(
+                                    'Éxito',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color:
+                                          Colors.white, // 👈 color del título
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                   content: Text(
                                     'Actividad Realizada correctamente',
                                   ),
@@ -217,7 +231,15 @@ class _EjercicioScreenState extends State<EjercicioScreen> {
                                           ),
                                         ),
                                       },
-                                      child: Text('OK'),
+                                      child: Text(
+                                        'OK',
+                                        style: TextStyle(
+                                          backgroundColor: Color(0xFFff4000),
+                                          color: Colors
+                                              .white, // 👈 color del botón
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),

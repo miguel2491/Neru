@@ -25,39 +25,47 @@ class _IconRadioGroupState extends State<IconRadioGroup> {
       runSpacing: 12,
       alignment: WrapAlignment.center,
       children: List.generate(options.length, (index) {
+        final option = options[index];
+        final isDisabled = option["label"] != "Futbol"; // ❌ todo excepto Futbol
         final isSelected = selectedIndex == index;
+
         return GestureDetector(
-          onTap: () {
-            if (index == 0) {
-              // solo permite seleccionar el primero
-              setState(() {
-                selectedIndex = index;
-              });
-            }
-          },
+          onTap: !isDisabled
+              ? null // ❌ No interactúa si NO es Futbol
+              : () {
+                  setState(() {
+                    selectedIndex = index; // ✔ Solo Futbol es seleccionable
+                  });
+                },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: isSelected
-                  ? Colors.white.withOpacity(0.2)
+              color: !isSelected
+                  ? Colors.white.withOpacity(0.5)
                   : Colors.transparent,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: isSelected ? Color(0xFFff4000) : Colors.white54,
+                color: isDisabled
+                    ? Colors
+                          .white24 // borde tenue para los deshabilitados
+                    : (isSelected ? const Color(0xFFff4000) : Colors.white54),
                 width: 2,
               ),
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(options[index]["image"], width: 40, height: 40),
-                const SizedBox(height: 4),
-                Text(
-                  options[index]["label"],
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ],
+            child: Opacity(
+              opacity: !isDisabled ? 1.0 : 1.0, // 🌑 sombreado al deshabilitar
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(option["image"], width: 40, height: 40),
+                  const SizedBox(height: 4),
+                  Text(
+                    option["label"],
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
             ),
           ),
         );
