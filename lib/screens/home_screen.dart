@@ -286,18 +286,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ?.canScheduleExactNotifications();
 
                 print("🔍 ¿Puede programar alarmas exactas?: $permitido");
-
-                final ahora = DateTime.now().add(const Duration(seconds: 50));
-                await notiService.programarNotificacion(
-                  "⏰ Recordatorio",
-                  "¡Es hora de tu lección 🗓️",
-                  ahora,
-                );
-                await notiService.mostrarNotificacion(
-                  "TEST",
-                  "Notificación instantánea",
-                );
-                print("✅ Notificación programada");
               },
             ),
             const SizedBox(height: 32),

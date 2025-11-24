@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:neru/screens/login/check_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:neru/services/foreground_service.dart';
+import 'package:neru/services/noti_service.dart';
 import 'package:permission_handler/permission_handler.dart';
-import './services/notificaciones.dart';
-
-final NotificacionesService notiService = NotificacionesService();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-  await notiService.init();
+  //************************************************************************* */
+  await NotificationService.init();
+  // Iniciar servicio en segundo plano
+  await ForegroundService.init();
+  await ForegroundService.start();
 
+  // Notificación inmediata de prueba
+  // await noti.mostrarNotificacion("Listo", "El servicio está activo");
+  //************************************************************************* */
   // 🔹 Pedir permiso para notificaciones
   if (await Permission.notification.isDenied) {
     await Permission.notification.request();
@@ -20,10 +26,7 @@ Future<void> main() async {
   if (await Permission.scheduleExactAlarm.isDenied) {
     await Permission.scheduleExactAlarm.request();
   }
-  await notiService.mostrarNotificacion(
-    "🔔 Bienvenido ⚽",
-    "Comienza con tu lección diaria, vamos",
-  );
+
   runApp(const MyApp());
 }
 
