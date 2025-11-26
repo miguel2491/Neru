@@ -4,6 +4,16 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:neru/services/foreground_service.dart';
 import 'package:neru/services/noti_service.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:android_intent_plus/android_intent.dart';
+
+Future<void> requestBatteryOptimizationOff() async {
+  const intent = AndroidIntent(
+    action: 'android.settings.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS',
+    data: 'package:com.nerupsciologia.neru', // TU PAQUETE
+  );
+
+  await intent.launch();
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +26,8 @@ Future<void> main() async {
 
   // Notificación inmediata de prueba
   // await noti.mostrarNotificacion("Listo", "El servicio está activo");
+  // 1️⃣ Pedir desactivar optimización de batería
+  await requestBatteryOptimizationOff();
   //************************************************************************* */
   // 🔹 Pedir permiso para notificaciones
   if (await Permission.notification.isDenied) {
