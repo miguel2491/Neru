@@ -117,19 +117,7 @@ class _EstresScreenState extends State<EstresScreen> {
     }
     return Scaffold(
       backgroundColor: Colors.blue,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xFF00406a), // 👈 color del botón
-        foregroundColor: Colors.white,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => ActividadesScreen(variable: widget.variable),
-            ),
-          );
-        },
-        child: const Icon(Icons.arrow_forward_ios),
-      ),
+
       appBar: AppBar(
         backgroundColor: const Color(0xFF00406a),
         foregroundColor: Colors.white,
@@ -150,13 +138,58 @@ class _EstresScreenState extends State<EstresScreen> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/fondo.png'),
-            fit: BoxFit.cover, // 👈 cubre toda la pantalla
+            fit: BoxFit.cover,
           ),
         ),
         child: SingleChildScrollView(
-          child: content, // tu contenido centrado o lo que necesites
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              content, // todo tu contenido dinámico
+
+              const SizedBox(height: 32),
+
+              /// 👇 BOTÓN AL FINAL DEL CONTENIDO
+              SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF00406a),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            ActividadesScreen(variable: widget.variable),
+                      ),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                  ),
+                  label: const Text(
+                    'EMPEZAR',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 24), // espacio final
+            ],
+          ),
         ),
       ),
+
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: 0,
         onItemTapped: _onItemTapped,

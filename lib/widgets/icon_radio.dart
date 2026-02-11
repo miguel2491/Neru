@@ -28,33 +28,33 @@ class _IconRadioGroupState extends State<IconRadioGroup> {
         final option = options[index];
         final isDisabled = option["label"] != "Futbol"; // ❌ todo excepto Futbol
         final isSelected = selectedIndex == index;
-
         return GestureDetector(
-          onTap: !isDisabled
-              ? null // ❌ No interactúa si NO es Futbol
+          onTap: isDisabled
+              ? null // ❌ Deshabilitado
               : () {
                   setState(() {
-                    selectedIndex = index; // ✔ Solo Futbol es seleccionable
+                    selectedIndex = index; // ✅ Solo Futbol
                   });
                 },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: !isSelected
-                  ? Colors.white.withOpacity(0.5)
-                  : Colors.transparent,
+              color: isSelected
+                  ? Colors.transparent
+                  : Colors.white.withOpacity(0.3),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: isDisabled
-                    ? Colors
-                          .white24 // borde tenue para los deshabilitados
+                    ? Colors.white24
                     : (isSelected ? const Color(0xFFff4000) : Colors.white54),
                 width: 2,
               ),
             ),
             child: Opacity(
-              opacity: !isDisabled ? 1.0 : 1.0, // 🌑 sombreado al deshabilitar
+              opacity: isDisabled
+                  ? 0.4
+                  : 1.0, // 👀 Se nota que no están activas
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

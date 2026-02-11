@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neru/main.dart';
 import 'package:neru/screens/inicio/intro_psic.dart';
 import 'package:neru/screens/inicio/intro_slider.dart';
+import 'package:neru/screens/contacto.dart';
 import 'package:neru/screens/inicio/variables.dart';
 import 'package:neru/screens/perfil.dart';
 import 'package:neru/services/db_helper.dart';
@@ -261,7 +262,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               color: const Color(0xFFff4000),
               onPressed: () {
-                //Navigator.pushNamed(context, '/progreso');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const Contacto()),
+                );
               },
             ),
             const SizedBox(height: 32),
