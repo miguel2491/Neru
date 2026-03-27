@@ -46,15 +46,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-
+      print(data);
       if (data is List && data.isNotEmpty) {
         final user = data[0];
         final prefs = await SharedPreferences.getInstance();
+        await prefs.setInt('idUser', user['id']);
         await prefs.setString('auth_usuario', username);
         await prefs.setString('auth_nombre', user['nombre']);
         await prefs.setString('auth_rol', user['rol']);
         await prefs.setString('auth_token', user['token']);
-
+        await prefs.setString('subscriptionStatus', user['estatusSubs']);
+        await prefs.setInt('daysRemaining', user['diasRestantes']);
+        await prefs.setBool('bStatusUser', true);
+        await prefs.setString('lastUpdate', DateTime.now().toIso8601String());
         // 🔹 Ahora carga variables y actividades con el usuario ya guardado
         await _loadVariables();
         await _loadActividades();

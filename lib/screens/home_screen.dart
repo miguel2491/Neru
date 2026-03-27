@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -8,6 +9,9 @@ import 'package:neru/screens/inicio/intro_psic.dart';
 import 'package:neru/screens/inicio/intro_slider.dart';
 import 'package:neru/screens/contacto.dart';
 import 'package:neru/screens/inicio/variables.dart';
+import 'package:neru/screens/login/paywall.dart';
+import 'package:neru/screens/login/paywall_day.dart';
+import 'package:neru/screens/login/popup.dart';
 import 'package:neru/screens/perfil.dart';
 import 'package:neru/services/db_helper.dart';
 import 'package:neru/widgets/politicas.dart';
@@ -15,6 +19,7 @@ import 'package:neru/widgets/bottom_nav.dart';
 //import '../widgets/app_drawer.dart';
 import 'package:neru/widgets/boton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:neru/services/api.dart' as api;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -52,10 +57,85 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     //_verificarEncuesta();
+    _checkSubscription();
+  }
+
+  Future<void> _checkSubscription() async {
+    // final result = await api.getSubscriptionStatus();
+    final prefs = await SharedPreferences.getInstance();
+
+    final diasR = prefs.getInt('daysRemaining');
+    final statusSb = prefs.getString('subscriptionStatus');
+    final bStatusUsr = prefs.getBool('bStatusUser') ?? false;
+    final lastUpdateStr = prefs.getString('lastUpdate');
+    if (lastUpdateStr != null) {
+      final lastUpdate = DateTime.parse(lastUpdateStr);
+      final now = DateTime.now();
+
+      final difference = now.difference(lastUpdate).inDays;
+
+      if (difference >= 1) {
+        // 🔥 ya pasó 1 día → actualizas desde API
+        await prefs.setBool('bStatusUser', true);
+        await prefs.setString('lastUpdate', now.toIso8601String());
+      }
+    }
+    print('⚽');
+    //await prefs.setBool('bStatusUser', true);
+    if (bStatusUsr) {
+      try {
+        final status = await api.getStatusUser();
+        print('🎃');
+        if (status != null) {
+          int dias = status['diasRest'];
+          String estatus = status['estatusSubs'];
+          if (dias == 14) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const PopupScreen(daysRemaining: 0),
+                ),
+              );
+            });
+          } else if (dias < 14 && dias >= 1) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const PopupScreen(daysRemaining: 0),
+                ),
+              );
+            });
+          } else {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const PaywallScreen(daysRemaining: 0),
+                ),
+              );
+            });
+          }
+        }
+      } catch (e) {
+        print('⚠️ Error cargando variables: $e');
+      }
+    }
+  }
+
+  Future<void> _checkStartDate() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    if (!prefs.containsKey("start_date")) {
+      await prefs.setString("start_date", DateTime.now().toIso8601String());
+      print("Fecha inicial guardada");
+    }
   }
 
   Future<void> _verificarEncuesta() async {
     final prefs = await SharedPreferences.getInstance();
+
     final yaRespondio = prefs.getBool('encuestaRespondida') ?? false;
 
     if (!yaRespondio) {

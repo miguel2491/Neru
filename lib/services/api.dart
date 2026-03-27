@@ -87,6 +87,32 @@ Future<List<Psicologo>> fPsicologos() async {
   }
 }
 
+Future<Map<String, dynamic>?> getSubscriptionStatus() async {
+  final response = await http.get(
+    Uri.parse(
+      'https://gcconsultoresmexico.com/api/api.php?action=get_variables',
+    ),
+  );
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body);
+  }
+  return null;
+}
+
+Future<Map<String, dynamic>?> getStatusUser() async {
+  final prefs = await SharedPreferences.getInstance();
+  final idUser = prefs.getInt('idUser');
+  final response = await http.get(
+    Uri.parse(
+      'https://gcconsultoresmexico.com/api/api.php?action=get_diasRest&id_usuario=$idUser',
+    ),
+  );
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body);
+  }
+  return null;
+}
+
 //LOCALES
 void mVariablesLocales() async {
   final usuarios = await DBHelper.getVariablesDB();
