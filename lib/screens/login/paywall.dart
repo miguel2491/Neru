@@ -170,9 +170,28 @@ class PaywallScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(height: 25),
+                Text.rich(
+                  TextSpan(
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 12,
+                      decoration: TextDecoration.underline,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: "Seguir con la prueba gratuita",
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            _openTerms(context);
+                          },
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
 
                 const SizedBox(height: 20),
-
                 Text.rich(
                   TextSpan(
                     style: const TextStyle(

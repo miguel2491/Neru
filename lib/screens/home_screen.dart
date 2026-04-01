@@ -81,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     }
     print('⚽');
+    print(statusSb);
     //await prefs.setBool('bStatusUser', true);
     if (bStatusUsr) {
       try {
